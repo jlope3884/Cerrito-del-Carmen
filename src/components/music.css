@@ -1,0 +1,46 @@
+.music {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--footer-text);
+  font-size: 0.69rem;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  transition: color 0.18s ease;
+}
+
+.music:hover {
+  color: var(--cream-text);
+}
+
+.music.is-on {
+  color: var(--gold);
+}
+
+.music__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: music-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes music-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music__dot {
+    animation: none;
+  }
+}

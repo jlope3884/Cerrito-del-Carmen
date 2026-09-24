@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Cerrito del Carmen — sistema visual
+   Tokens tomados del diseño de Figma (Diseño Web · Horas de Extensión UVG)
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --cream: #faf7f1;
+  --card: #fefcfa;
+  --ink: #211a15;
+  --ink-deep: #1a1410;
+  --muted: #4d4238;
+  --placeholder: #8c8073;
+  --border: #d1c4b3;
+  --gold: #c6a15b;
+  --gold-deep: #b38c47;
+  --cream-text: #f4ede1;
+  --footer-text: #c9bca9;
+  --image-bl: #ede8de;
+
+  /* Tipografía */
+  --font-display: 'Cinzel', 'Times New Roman', serif;
+  --font-quote: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Medidas */
+  --maxw: 1440px;
+  --gutter: 96px;
+  --radius: 3px;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Tipografía ---------- */
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin: 0;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5vw, 3.25rem);
+}
+h2 {
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+}
+h3 {
+  font-size: clamp(1.2rem, 2vw, 1.35rem);
+}
+
+p {
+  margin: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin: 0;
+}
+
+.eyebrow--light {
+  color: var(--gold);
+}
+
+.lead {
+  font-size: 1.125rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+.quote {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  line-height: 1.4;
+  color: var(--cream-text);
+}
+
+.note {
+  font-size: 0.82rem;
+  color: var(--placeholder);
+  line-height: 1.5;
+}
+
+/* ---------- Estructura ---------- */
+
+.shell {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section {
+  padding: 88px 0;
+}
+
+.section--tight {
+  padding: 56px 0;
+}
+
+.section--dark {
+  background: var(--ink);
+  color: var(--cream-text);
+}
+
+.section--dark h2,
+.section--dark h3 {
+  color: var(--cream-text);
+}
+
+.section--dark .lead {
+  color: var(--footer-text);
+}
+
+.section__head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.rule {
+  width: 64px;
+  height: 2px;
+  background: var(--gold);
+  border: 0;
+  margin: 0 0 6px;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1000px) {
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Componentes base ---------- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--placeholder);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.btn--primary {
+  background: var(--gold);
+  color: var(--ink);
+}
+.btn--primary:hover {
+  background: var(--gold-deep);
+}
+
+.btn--ghost {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+.btn--ghost:hover {
+  background: rgba(198, 161, 91, 0.12);
+}
+
+.btn--dark {
+  background: var(--ink);
+  color: var(--cream-text);
+}
+.btn--dark:hover {
+  background: var(--ink-deep);
+}
+
+/* Marcador de imagen — mientras la parroquia entrega las fotos reales */
+.ph {
+  background: var(--image-bl);
+  border-radius: 2px;
+  min-height: 260px;
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  color: var(--placeholder);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.ph--tall {
+  min-height: 420px;
+}
+.ph--wide {
+  min-height: 340px;
+}
+
+/* ---------- Utilidades ---------- */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+.stack--sm {
+  gap: 12px;
+}
+.stack--md {
+  gap: 20px;
+}
+.stack--lg {
+  gap: 32px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  border: 0;
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

@@ -1,0 +1,321 @@
+/* ---------- Encabezado de páginas interiores ---------- */
+
+.pagehero {
+  background: var(--ink);
+  color: var(--cream-text);
+  padding: 96px 0 84px;
+}
+
+.pagehero h1 {
+  color: var(--cream-text);
+  max-width: 18ch;
+}
+
+.pagehero__text {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  color: var(--footer-text);
+  max-width: 58ch;
+}
+
+/* ---------- Portada ---------- */
+
+.hero {
+  position: relative;
+  min-height: 640px;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(180deg, #2b221b 0%, #171210 100%);
+  color: var(--cream-text);
+  padding: 0 0 72px;
+  overflow: hidden;
+}
+
+.hero__ph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: start end;
+  color: rgba(244, 237, 225, 0.25);
+  font-size: 0.78rem;
+  text-align: right;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.hero h1 {
+  color: var(--cream-text);
+  font-size: clamp(2.8rem, 6.5vw, 4.4rem);
+  max-width: 14ch;
+}
+
+.hero__sub {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  color: var(--footer-text);
+  max-width: 46ch;
+}
+
+.hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+/* ---------- Bloques compartidos ---------- */
+
+.explorar__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.explorar__card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.explorar__num {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--gold-deep);
+  letter-spacing: 1px;
+}
+
+.explorar__más {
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+}
+
+.timeline__año {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: var(--gold-deep);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.timeline__hito {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.cita {
+  background: var(--ink);
+  padding: 96px 0;
+  text-align: center;
+}
+
+.cita__marca {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 18px;
+}
+
+.cita__fuente {
+  display: block;
+  margin-top: 26px;
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--footer-text);
+}
+
+/* ---------- Historia ---------- */
+
+.capitulo {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  padding: 44px 0;
+  border-top: 1px solid var(--border);
+}
+
+.capitulo__num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.capitulo__epoca {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.capitulo p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin-top: 14px;
+}
+
+.parte {
+  padding-top: 96px;
+}
+
+/* ---------- Visita ---------- */
+
+.horario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.horario__hora {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.faq {
+  border-top: 1px solid var(--border);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq__q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: none;
+  border: 0;
+  padding: 26px 0;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.faq__signo {
+  color: var(--gold-deep);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.faq__r {
+  padding: 0 0 26px;
+  color: var(--muted);
+  max-width: 78ch;
+  line-height: 1.7;
+}
+
+/* ---------- Donar ---------- */
+
+.cuenta__numero {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: var(--ink);
+}
+
+.cuenta__fila + .cuenta__fila {
+  margin-top: 18px;
+}
+
+.aviso-legal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 26px 28px;
+}
+
+.aviso-legal p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.aviso-legal p + p {
+  margin-top: 12px;
+}
+
+.gracias {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.gracias__item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+
+.gracias__item strong {
+  display: block;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.gracias__item span {
+  font-size: 0.8rem;
+  color: var(--placeholder);
+}
+
+@media (max-width: 1000px) {
+  .timeline {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .capitulo {
+    grid-template-columns: 60px 1fr;
+  }
+  .capitulo > .ph {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .timeline {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero {
+    min-height: 520px;
+  }
+}
