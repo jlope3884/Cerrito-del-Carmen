@@ -10,27 +10,54 @@ npm install
 npm run dev      # http://localhost:5173
 ```
 
-Para generar la versión de producción:
+Producción:
 
 ```bash
 npm run build    # queda en dist/
-npm run preview  # sirve dist/ para revisarlo
+npm run preview
 ```
+
+## Páginas
+
+| Ruta | Página |
+|---|---|
+| `/` | Inicio |
+| `/historia` | Historia — Pasado · La Virgen · Actualidad |
+| `/arquitectura` | Arquitectura — fachada, torreón, catacumbas, campanas, cruz papal, arte |
+| `/galeria` | Galería con filtros + fototeca de Muybridge |
+| `/visita` | Visita, horarios de misa, qué ver, parque y Plaza México |
+| `/celebraciones` | Planifica tu celebración religiosa — sacramentos y agenda |
+| `/ubicacion` | Ubicación, cómo llegar, puntos de referencia |
+| `/contacto` | Formulario, datos y preguntas frecuentes |
+| `/donar` | Cuentas bancarias, aviso legal y agradecimientos |
 
 ## Estructura
 
 ```
 src/
-  data/site.js          ← TODO el contenido del sitio (textos, horarios, cuentas, FAQ)
+  data/site.js          ← TODO el contenido del sitio (textos, horarios, cuentas, FAQ, fotos)
   components/           ← Header, Footer, control de música, piezas compartidas
-  pages/                ← Inicio, Historia, Visita, Donar
+  pages/                ← una por sección
   styles/global.css     ← tokens de color y tipografía + utilidades
 public/
   audio/                ← aquí va canto-gregoriano.mp3 (música ambiental)
-  img/                  ← aquí van las fotos cuando la parroquia las entregue
+  img/                  ← fotos optimizadas (máx. 1600 px, JPEG)
+  video/                ← vídeos de la galería (pólvora de la fiesta y fachada al atardecer)
 ```
 
-**Regla práctica:** casi todo lo que la parroquia querrá cambiar está en `src/data/site.js`.
+## Cómo poner las fotos
+
+Cada bloque con imagen tiene un campo `img` en `src/data/site.js`:
+
+```js
+{ titulo: 'La fachada ultrabarroca', img: '', alt: 'Fachada barroca de la ermita' }
+```
+
+1. Copiá la foto a `public/img/`, por ejemplo `public/img/fachada.jpg`
+2. Escribí la ruta: `img: '/img/fachada.jpg'`
+
+Mientras `img` esté vacío se muestra el marcador gris con el texto del `alt`. No hay que tocar
+ningún componente.
 
 ## Sistema visual
 
@@ -43,14 +70,15 @@ public/
 | `--muted` | `#4D4238` | texto de párrafo |
 | `--border` | `#D1C4B3` | bordes de tarjetas |
 
-Tipografías (Google Fonts): **Cinzel** para títulos, **Inter** para interfaz y texto,
-**Cormorant Garamond** itálica para citas.
+Tipografías (Google Fonts): **Cinzel** (títulos), **Inter** (interfaz) y **Cormorant Garamond**
+itálica (citas).
 
 ## Pendientes
 
-- Fotografías reales: los bloques grises con texto son marcadores; se sustituyen por `<img>`.
-- Música ambiental: colocar `public/audio/canto-gregoriano.mp3`. Si el archivo no existe, el
-  control desaparece solo.
+- Fotos que aún faltan: catacumbas, vistas aéreas y la fototeca histórica (Muybridge).
+- Confirmar que la foto de la cruz del atrio corresponde a la cruz papal.
+- Autorización de los fotógrafos (Mario Cruz Álvarez y las imágenes con marca «N»).
+- Audio del canto gregoriano.
 - Confirmar con la parroquia: números de cuenta, correos, horarios de misa y el aviso legal.
-- Faltan las secciones de Arquitectura, Galería, Eventos/Celebraciones, Ubicación y Contacto,
-  y el panel administrativo.
+- Conectar el envío real del formulario de contacto.
+- Panel administrativo (va aparte, con login y base de datos).

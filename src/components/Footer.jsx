@@ -8,8 +8,9 @@ const columnas = [
     titulo: 'Descubrir',
     enlaces: [
       { label: 'Historia', to: '/historia' },
-      { label: 'La Virgen del Carmen', to: '/historia#la-virgen' },
-      { label: 'Leyendas del cerro', to: '/historia#actualidad' },
+      { label: 'Arquitectura', to: '/arquitectura' },
+      { label: 'Galería', to: '/galeria' },
+      { label: 'Fototeca histórica', to: '/galeria#fototeca' },
     ],
   },
   {
@@ -17,24 +18,25 @@ const columnas = [
     enlaces: [
       { label: 'Cómo visitar', to: '/visita' },
       { label: 'Horarios de misa', to: '/visita#misas' },
-      { label: 'Qué ver', to: '/visita#que-ver' },
-      { label: 'Preguntas frecuentes', to: '/visita#faq' },
+      { label: 'Ubicación', to: '/ubicacion' },
+      { label: 'Cómo llegar', to: '/ubicacion#como-llegar' },
     ],
   },
   {
-    titulo: 'Apoyar',
+    titulo: 'Agenda y contacto',
     enlaces: [
+      { label: 'Celebraciones', to: '/celebraciones' },
+      { label: 'Sacramentos', to: '/celebraciones#sacramentos' },
+      { label: 'Contacto', to: '/contacto' },
+      { label: 'Preguntas frecuentes', to: '/contacto#faq' },
       { label: 'Donar', to: '/donar' },
-      { label: 'Cuentas del santuario', to: '/donar#cuentas' },
       { label: 'Agradecimientos', to: '/donar#agradecimientos' },
     ],
   },
 ]
 
 function IconoRed({ tipo }) {
-  if (tipo === 'facebook') {
-    return <span className="social__f">f</span>
-  }
+  if (tipo === 'facebook') return <span className="social__f">f</span>
   if (tipo === 'instagram') {
     return (
       <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
@@ -86,14 +88,7 @@ export default function Footer() {
           <h4 className="footer__coltitle">Síguenos</h4>
           <div className="social">
             {redes.map((r) => (
-              <a
-                key={r.nombre}
-                href={r.url}
-                className="social__link"
-                aria-label={r.nombre}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a key={r.nombre} href={r.url} className="social__link" aria-label={r.nombre} target="_blank" rel="noreferrer">
                 <IconoRed tipo={r.icono} />
               </a>
             ))}
@@ -103,7 +98,10 @@ export default function Footer() {
 
       <div className="footer__bottom">
         <div className="shell footer__bottom-inner">
-          <span>© {new Date().getFullYear()} Santuario del Cerrito del Carmen · {site.ciudad}</span>
+          <span>
+            © {new Date().getFullYear()} Santuario del Cerrito del Carmen · {site.ciudad} · Fotografías: comunidad del
+            Cerrito y Mario Cruz Álvarez
+          </span>
           <span className="footer__legal">
             <a href="#">Notas legales</a>
             <a href="#">Política de privacidad</a>

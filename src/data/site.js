@@ -1,6 +1,11 @@
 /* ==========================================================================
    Contenido del sitio en un solo lugar.
    Editar aquí es lo único que necesita la parroquia para actualizar el sitio.
+
+   FOTOS: cada bloque con imagen tiene un campo `img`. Mientras esté vacío
+   se muestra el marcador gris con el texto de `alt`. Para poner la foto real:
+   1. copiar el archivo a  public/img/
+   2. escribir la ruta:    img: '/img/fachada.jpg'
    ========================================================================== */
 
 export const site = {
@@ -19,8 +24,12 @@ export const site = {
 
 export const nav = [
   { label: 'Historia', to: '/historia' },
+  { label: 'Arquitectura', to: '/arquitectura' },
+  { label: 'Galería', to: '/galeria' },
   { label: 'Visita', to: '/visita' },
-  { label: 'Donar', to: '/donar' },
+  { label: 'Celebraciones', to: '/celebraciones' },
+  { label: 'Ubicación', to: '/ubicacion' },
+  { label: 'Contacto', to: '/contacto' },
 ]
 
 export const redes = [
@@ -68,29 +77,10 @@ export const cuentas = [
 ]
 
 export const destinoAporte = [
-  {
-    num: '01',
-    titulo: 'Conservación',
-    texto:
-      'Restauración de la fachada barroca, el torreón y las cuatro capillas de la plazuela.',
-  },
-  {
-    num: '02',
-    titulo: 'Las campanas',
-    texto:
-      'Cuidado y afinación de las cuatro campanas históricas, fundidas entre 1748 y 1925.',
-  },
-  {
-    num: '03',
-    titulo: 'Culto vivo',
-    texto:
-      'Sostenimiento de las celebraciones marianas y de la vida diaria del santuario.',
-  },
-  {
-    num: '04',
-    titulo: 'El atrio',
-    texto: 'Mantenimiento del atrio, las jardineras y los accesos al cerro.',
-  },
+  { num: '01', titulo: 'Conservación', texto: 'Restauración de la fachada barroca, el torreón y las cuatro capillas de la plazuela.' },
+  { num: '02', titulo: 'Las campanas', texto: 'Cuidado y afinación de las cuatro campanas históricas, fundidas entre 1748 y 1925.' },
+  { num: '03', titulo: 'Culto vivo', texto: 'Sostenimiento de las celebraciones marianas y de la vida diaria del santuario.' },
+  { num: '04', titulo: 'El atrio', texto: 'Mantenimiento del atrio, las jardineras y los accesos al cerro.' },
 ]
 
 export const lineaDeTiempo = [
@@ -109,6 +99,8 @@ export const capitulos = [
     titulo: 'El Valle de las Vacas',
     texto:
       'Al conquistador Héctor de la Barreda le fue otorgado este valle despoblado. Mandó traer vacas y toros desde Cuba, que muy pronto se multiplicaron entre sus fértiles pastos; por eso se le llegó a conocer como el valle de las Vacas.',
+    img: '/img/cupula-atardecer.jpg',
+    alt: 'La cúpula del Cerrito al atardecer, con el valle y las montañas al fondo',
   },
   {
     num: '02',
@@ -116,6 +108,8 @@ export const capitulos = [
     titulo: 'Juan Corz y la Virgen del Carmen',
     texto:
       'El ermitaño genovés Juan Corz llegó a Guatemala con una pequeña imagen de la Virgen del Carmen que las carmelitas descalzas de Ávila le confiaron: era el último deseo de santa Teresa de Ávila en su lecho de muerte. Le aseguraron que donde fuera venerada la imagen surgiría una gran ciudad. Se estableció en unas cuevas del cerro y allí, viendo semejanza con el monte Carmelo, levantó la primera ermita.',
+    img: '/img/juan-corz-cueva.jpg',
+    alt: 'Juan Corz en oración ante la Virgen del Carmen en la cueva del cerro',
   },
   {
     num: '03',
@@ -123,6 +117,8 @@ export const capitulos = [
     titulo: 'El templo de cal y canto',
     texto:
       'Un incendio arrasó la primera ermita y solo se salvó la imagen. En 1620 se concluyó un nuevo templo de paredes de cal y canto, levantado con el apoyo de los vecinos del valle.',
+    img: '/img/muro-contrafuertes-noche.jpg',
+    alt: 'Muro lateral y contrafuertes de la ermita, de noche',
   },
   {
     num: '04',
@@ -130,6 +126,8 @@ export const capitulos = [
     titulo: 'Sede parroquial e Inquisición',
     texto:
       'La iglesia del cerro fue sede parroquial durante 76 años. Corz, en cambio, fue denunciado ante la Inquisición en 1620 y desapareció del Cerrito sin dejar rastro: su expediente pasó al Tribunal de México y se cree que huyó hacia allá. Nunca se volvió a saber de él en el vecindario.',
+    img: '/img/juan-corz-estatua.jpg',
+    alt: 'Estatua de piedra de Juan Corz sosteniendo la imagen de la Virgen',
   },
   {
     num: '05',
@@ -137,6 +135,8 @@ export const capitulos = [
     titulo: 'Juan José Morales, el reconstructor',
     texto:
       'El cofrade Juan José Morales financió la reconstrucción cuando la madera amenazaba con desplomarse: levantó la iglesia con bóveda de medio cañón, las dos torres de la fachada y el torreón central. Pasó a la historia como «el reconstructor de la ermita».',
+    img: '/img/torreon-fachada-atardecer.jpg',
+    alt: 'El torreón y la fachada levantados en la reconstrucción de Juan José Morales',
   },
   {
     num: '06',
@@ -144,6 +144,8 @@ export const capitulos = [
     titulo: 'El traslado de la capital',
     texto:
       'Tras los terremotos de Santa Marta de 1773, los notables votaron trasladar la capital al valle de la Ermita. La Nueva Guatemala de la Asunción se trazó desde el Cerrito, cumpliendo la promesa que acompañó a la imagen.',
+    img: '/img/torreon-redonda-plaza.jpg',
+    alt: 'El torreón y la plaza del cerro con la ciudad al fondo',
   },
   {
     num: '07',
@@ -151,6 +153,8 @@ export const capitulos = [
     titulo: 'Cambios administrativos',
     texto:
       'En 1784 la ermita fue constituida en capellanía filial de la parroquia de Candelaria, condición que ostenta hasta hoy. Desde 1959 el santuario está al cuidado de los frailes franciscanos.',
+    img: '/img/despacho-parroquial.jpg',
+    alt: 'El despacho parroquial del santuario',
   },
   {
     num: '08',
@@ -158,6 +162,8 @@ export const capitulos = [
     titulo: 'Los terremotos del siglo XX',
     texto:
       'El terremoto de 1917-18 derrumbó el templo, reinaugurado el 22 de noviembre de 1925. El de 1976 derribó la torre derecha y el tercer nivel de la fachada y dañó el torreón; su restauración concluyó entre 1981 y 1984.',
+    img: '/img/fachada-torreon-empedrado.jpg',
+    alt: 'La fachada y el torreón restaurados, vistos desde el empedrado',
   },
 ]
 
@@ -179,6 +185,12 @@ export const laVirgen = [
   },
 ]
 
+export const fotosVirgen = [
+  { img: '/img/virgen-del-carmen.jpg', alt: 'La Virgen del Carmen con su resplandor y corona', pie: 'La Virgen del Carmen' },
+  { img: '/img/santa-teresa.jpg', alt: 'Imagen de santa Teresa de Ávila con hábito carmelita', pie: 'Santa Teresa de Ávila' },
+  { img: '/img/escapularios.jpg', alt: 'Escapularios del Carmen', pie: 'El escapulario del Carmen' },
+]
+
 export const actualidad = [
   {
     eyebrow: 'La fiesta',
@@ -195,6 +207,201 @@ export const actualidad = [
       'El Cerrito ocupa un lugar propio en las leyendas de la ciudad. La más conocida es la de Pie de Lana, el ladrón que calzaba calcetas de lana para robar sin hacer ruido y que, según se cuenta, fue ajusticiado en el cerro; durante la feria se advertía a los niños que no anduvieran solos de noche.',
       'El parque también ha sido escenario de noches de leyendas, donde los personajes de la tradición guatemalteca vuelven a recorrer el cerro cada año.',
     ],
+  },
+]
+
+/* ---------- Arquitectura ---------- */
+
+export const arquitectura = [
+  {
+    num: '01',
+    titulo: 'La fachada ultrabarroca',
+    texto:
+      'Fachada de estilo ultrabarroco con pilastras serlianas y hornacinas. En ellas aparecen las figuras carmelitas: san Juan de la Cruz, el profeta Elías, santa Teresa de Ávila y santa María Magdalena de Pazzi.',
+    img: '/img/fachada-guirnaldas.jpg',
+    alt: 'Fachada barroca de la ermita con guirnaldas',
+  },
+  {
+    num: '02',
+    titulo: 'Las torres y el torreón',
+    texto:
+      'Las dos torres de la fachada y el torreón central son obra de la reconstrucción de Juan José Morales. Del torreón —«la Redonda»— se cree que sirvió como bautisterio de la iglesia antes de las reconstrucciones del siglo XX.',
+    img: '/img/torreon-dia.jpg',
+    alt: 'El torreón «la Redonda» sobre la plaza empedrada',
+  },
+  {
+    num: '03',
+    titulo: 'El retablo mayor',
+    texto:
+      'Retablo ultrabarroco del siglo XVIII, dorado, donde se venera a la Virgen del Carmen acompañada de san Simón Stock y santa Teresa de Jesús. Es la pieza central del arte del santuario.',
+    img: '/img/retablo-detalle.jpg',
+    alt: 'Retablo mayor dorado con flores',
+  },
+  {
+    num: '04',
+    titulo: 'La nave y la bóveda',
+    texto:
+      'Nave única cubierta con bóveda de medio cañón y coro elevado a los pies del templo, solución habitual en las ermitas coloniales del valle.',
+    img: '/img/nave-interior.jpg',
+    alt: 'Nave única del templo hacia el retablo mayor',
+  },
+  {
+    num: '05',
+    titulo: 'Las catacumbas',
+    texto:
+      'Bajo el templo se conservan las catacumbas del cerro, parte del conjunto histórico del santuario. Su acceso está restringido y se abre solo en visitas guiadas especiales.',
+    img: '',
+    alt: 'Acceso a las catacumbas del santuario',
+  },
+  {
+    num: '06',
+    titulo: 'La campana',
+    texto:
+      'El campanario conserva cuatro campanas históricas, fundidas en 1748, 1872, 1921 y 1925. La más antigua acompaña las celebraciones del Cerrito desde antes del traslado de la capital.',
+    img: '/img/campana.jpg',
+    alt: 'Campana del campanario con el torreón y la ciudad abajo',
+  },
+  {
+    num: '07',
+    titulo: 'La cruz papal',
+    texto:
+      'La cruz papal que guarda el santuario, memoria de la devoción mariana de la ciudad y de las celebraciones que ha acogido el cerro.',
+    img: '/img/cruz-atrio.jpg',
+    alt: 'La cruz del atrio al anochecer',
+  },
+  {
+    num: '08',
+    titulo: 'El confesionario y la imaginería',
+    texto:
+      'Confesionario ultrabarroco decorado con espejos, junto a la imaginería y los óleos que forman el patrimonio artístico del templo.',
+    img: '/img/angeles-ruega.jpg',
+    alt: 'Ángeles de la imaginería del santuario con el listón «Ruega por nosotros»',
+  },
+]
+
+/* ---------- Galería ---------- */
+
+export const galeriaFiltros = ['Todo', 'Exterior', 'Interior', 'Fiesta y procesión', 'Detalles', 'Parque']
+
+export const galeria = [
+  { cat: 'Exterior', alt: 'Costado del templo y sus capillas en la hora dorada', img: '/img/costado-hora-dorada.jpg' },
+  { cat: 'Interior', alt: 'El retablo mayor con la Virgen del Carmen', img: '/img/retablo-mayor.jpg' },
+  { cat: 'Fiesta y procesión', alt: 'Pólvora y humo frente a la fachada durante la fiesta', img: '/img/fiesta-polvora.jpg' },
+  { cat: 'Detalles', alt: 'Pequeña imagen dorada de la Virgen en procesión', img: '/img/virgen-procesion-detalle.jpg' },
+  { cat: 'Parque', alt: 'Pérgola de buganvilias sobre el camino de piedra', img: '/img/pergola-buganvilias.jpg' },
+  { cat: 'Exterior', alt: 'La fachada iluminada de noche desde las gradas del atrio', img: '/img/fachada-noche.jpg' },
+  { cat: 'Interior', alt: 'La nave con sus bancas hacia el retablo', img: '/img/nave-bancas.jpg' },
+  { cat: 'Fiesta y procesión', alt: 'Salida de la procesión entre papel picado', img: '/img/salida-procesion.jpg' },
+  { cat: 'Detalles', alt: 'Ángel del anda con corona de plata', img: '/img/angel-detalle.jpg' },
+  { cat: 'Exterior', alt: 'El templo y sus jardines con rayos de sol', img: '/img/exterior-rayos-sol.jpg' },
+  { cat: 'Parque', alt: 'La cúpula enmarcada por flores rojas', img: '/img/cupula-flores.jpg' },
+  { cat: 'Interior', alt: 'La nave decorada para la fiesta patronal', img: '/img/nave-fiesta.jpg' },
+  { cat: 'Fiesta y procesión', alt: 'El anda de la Virgen con flores bajo el cielo azul', img: '/img/procesion-anda.jpg' },
+  { cat: 'Exterior', alt: 'El torreón iluminado de noche', img: '/img/torreon-noche.jpg' },
+  { cat: 'Detalles', alt: 'Ángeles del anda de la Virgen', img: '/img/angeles-anda.jpg' },
+  { cat: 'Interior', alt: 'El camarín de la Virgen en el retablo dorado', img: '/img/camarin-virgen.jpg' },
+  { cat: 'Fiesta y procesión', alt: 'Arco de flores en la puerta del templo', img: '/img/arco-flores-fiesta.jpg' },
+  { cat: 'Parque', alt: 'La fuente del parque', img: '/img/fuente-parque.jpg' },
+  { cat: 'Exterior', alt: 'Silueta de las torres y la cruz al atardecer', img: '/img/silueta-torres.jpg' },
+  { cat: 'Interior', alt: 'El retablo con las cortinas amarillo y blanco', img: '/img/retablo-cortinas.jpg' },
+  { cat: 'Fiesta y procesión', alt: 'El anda «Reina de los Ángeles» dentro del templo', img: '/img/anda-reina-angeles.jpg' },
+  { cat: 'Detalles', alt: 'El anda de la Virgen en penumbra', img: '/img/anda-penumbra.jpg' },
+  { cat: 'Parque', alt: 'Jardín con buganvilias al atardecer', img: '/img/jardin-buganvilias.jpg' },
+  { cat: 'Fiesta y procesión', alt: 'Cuaresma: el Nazareno frente al templo iluminado en morado', img: '/img/cuaresma-nazareno.jpg' },
+  { cat: 'Parque', alt: 'Plaza del cerro con palmera, de noche', img: '/img/plaza-palmera.jpg' },
+  { cat: 'Exterior', alt: 'El torreón al atardecer', img: '/img/torreon-poste.jpg' },
+]
+
+export const creditos =
+  'Fotografías del santuario compartidas por la comunidad del Cerrito del Carmen. Algunas imágenes son de Mario Cruz Álvarez; se usan con fines de demostración y su publicación final requiere la autorización de sus autores.'
+
+/* ---------- Celebraciones (antes Eventos) ---------- */
+
+export const sacramentos = [
+  {
+    nombre: 'Bautismo',
+    requisitos: 'Partida de nacimiento del niño, datos de los padres y padrinos, y charla prebautismal.',
+  },
+  {
+    nombre: 'Primera Comunión',
+    requisitos: 'Constancia de bautismo y catequesis completa en la parroquia o en el colegio.',
+  },
+  {
+    nombre: 'Confirmación',
+    requisitos: 'Constancia de bautismo y primera comunión, más el curso de confirmación.',
+  },
+  {
+    nombre: 'Matrimonio',
+    requisitos: 'Constancias de bautismo y confirmación de ambos, charlas prematrimoniales y reserva de fecha con tiempo.',
+  },
+  {
+    nombre: 'Reconciliación',
+    requisitos: 'Confesiones antes de cada misa o con cita previa en la sacristía.',
+  },
+  {
+    nombre: 'Unción de los enfermos',
+    requisitos: 'Se atiende a domicilio o en el templo; comunicarse con la parroquia para coordinar.',
+  },
+]
+
+export const agenda = [
+  {
+    dia: '16',
+    cuando: 'De julio · cada año',
+    tipo: 'Fiesta patronal',
+    titulo: 'Fiesta de la Virgen del Carmen · misas solemnes durante todo el día',
+  },
+  {
+    dia: '18',
+    cuando: 'De julio · 2026',
+    tipo: 'Procesión',
+    titulo: 'La Virgen recorre el Centro Histórico · sale a las 15:00 y entra al santuario a las 20:00',
+  },
+  {
+    dia: 'Jul',
+    cuando: 'Dos semanas de feria',
+    tipo: 'Feria del Cerrito',
+    titulo: 'Feria y Festival del Cerrito sobre la avenida Juan Chapín, entre 1a y 4a calle, zona 1',
+  },
+]
+
+/* ---------- Ubicación ---------- */
+
+export const comoLlegar = [
+  {
+    label: 'Dirección',
+    titulo: 'Dónde está',
+    texto: '1a calle y 12 avenida, Zona 1, Ciudad de Guatemala, 01001. En la cima del cerro del Carmen.',
+  },
+  {
+    label: 'Cómo llegar',
+    titulo: 'En transporte',
+    texto: 'En pleno Centro Histórico (Zona 1), accesible a pie desde las calles cercanas y desde la avenida Juan Chapín.',
+  },
+  {
+    label: 'Estacionamiento',
+    titulo: 'Dónde aparcar',
+    texto: 'Parqueo gratuito para visitantes junto al acceso del cerro.',
+  },
+  {
+    label: 'Servicios',
+    titulo: 'Baños y comida',
+    texto: 'Hay servicios sanitarios abajo, en el área del parque. Dentro del santuario no hay venta de comida; alrededor del cerro hay tiendas cercanas.',
+  },
+]
+
+export const referencias = [
+  {
+    titulo: 'Parroquia de la Candelaria',
+    texto: 'La ermita es filial de esta parroquia cercana, condición que conserva desde 1784.',
+  },
+  {
+    titulo: 'La Plaza México',
+    texto: 'En el parque que rodea el cerro, punto de encuentro del barrio y acceso a la ladera arbolada.',
+  },
+  {
+    titulo: 'Vistas de la ciudad',
+    texto: 'Desde la cima se domina el Centro Histórico: las mismas panorámicas que Muybridge fotografió en 1875.',
   },
 ]
 
@@ -239,10 +446,7 @@ export const recomendaciones = [
 ]
 
 export const faqs = [
-  {
-    p: '¿Hay parqueo?',
-    r: 'Sí. El santuario cuenta con parqueo gratuito para visitantes en el Centro Histórico, zona 1.',
-  },
+  { p: '¿Hay parqueo?', r: 'Sí. El santuario cuenta con parqueo gratuito para visitantes en el Centro Histórico, zona 1.' },
   {
     p: '¿Cuál es el horario?',
     r: 'El santuario abre todos los días de 6:00 a 18:00 h. Las misas son de martes a viernes a las 7:00 y los domingos a las 9:00, 11:00 y 16:00 h.',
@@ -251,12 +455,17 @@ export const faqs = [
     p: '¿Es seguro visitarlo?',
     r: 'Se recomienda visitarlo de día y por el acceso principal del atrio. El cerro está dentro del Centro Histórico y hay presencia de seguridad durante las celebraciones y la feria.',
   },
-  {
-    p: '¿Hay baños?',
-    r: 'Sí, hay servicios sanitarios abajo, en el área del parque.',
-  },
+  { p: '¿Hay baños?', r: 'Sí, hay servicios sanitarios abajo, en el área del parque.' },
   {
     p: '¿Venden comida dentro?',
     r: 'Dentro del santuario no hay venta de comida. Alrededor del Cerrito hay tiendas y ventas cercanas, y durante la feria de julio la oferta se amplía en la avenida Juan Chapín.',
   },
+]
+
+export const agradecimientos = [
+  { nombre: 'Familia Us Similox', nota: 'Restauración del retablo mayor' },
+  { nombre: 'Cofradía de Nuestra Señora del Carmen', nota: 'Fiesta patronal 2026' },
+  { nombre: 'Vecinos del barrio del Cerrito', nota: 'Mantenimiento del atrio' },
+  { nombre: 'Colegio San José', nota: 'Bandas de la procesión' },
+  { nombre: 'Anónimo', nota: 'Cuidado de las campanas' },
 ]

@@ -9,10 +9,8 @@ export default function Header() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
 
-  // cerrar el menú al cambiar de página
   useEffect(() => setOpen(false), [pathname])
 
-  // bloquear el scroll del fondo con el menú abierto
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => {
@@ -56,8 +54,8 @@ export default function Header() {
             ))}
           </nav>
 
-          <Link to="/visita" className="btn btn--ghost header__cta">
-            Planea tu visita
+          <Link to="/donar" className="btn btn--ghost header__cta">
+            Donar
           </Link>
 
           <button
@@ -76,7 +74,7 @@ export default function Header() {
       {open && (
         <div className="menu" role="dialog" aria-label="Menú">
           <nav className="menu__list">
-            {[{ label: 'Inicio', to: '/' }, ...nav].map((item) => (
+            {[{ label: 'Inicio', to: '/' }, ...nav, { label: 'Donar', to: '/donar' }].map((item) => (
               <NavLink key={item.to} to={item.to} className="menu__item">
                 {item.label}
                 <span aria-hidden="true">›</span>

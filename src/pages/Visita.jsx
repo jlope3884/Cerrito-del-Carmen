@@ -1,34 +1,7 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { site, horarios, queVer, recomendaciones, faqs } from '../data/site.js'
+import { site, horarios, queVer, recomendaciones } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import './pages.css'
-
-function Faq() {
-  const [abierta, setAbierta] = useState(0)
-  return (
-    <div className="faq" id="faq">
-      {faqs.map((f, i) => {
-        const activa = abierta === i
-        return (
-          <div key={f.p} className="faq__item">
-            <button
-              className="faq__q"
-              onClick={() => setAbierta(activa ? -1 : i)}
-              aria-expanded={activa}
-            >
-              {f.p}
-              <span className="faq__signo" aria-hidden="true">
-                {activa ? '–' : '+'}
-              </span>
-            </button>
-            {activa && <p className="faq__r">{f.r}</p>}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
 
 export default function Visita() {
   return (
@@ -61,15 +34,21 @@ export default function Visita() {
               <span className="label">Accesibilidad</span>
               <h3>Acceso</h3>
               <p>
-                Se llega por el atrio empedrado y algunas gradas. Si necesitas apoyo para el
-                acceso, escríbenos antes de tu visita.
+                Se llega por el atrio empedrado y algunas gradas. Si necesitas apoyo para el acceso,
+                escríbenos antes de tu visita.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ---------- Misas ---------- */}
+      <section className="section section--tight">
+        <div className="shell grid grid--2">
+          <Foto src="/img/exterior-rayos-sol.jpg" alt="El templo y sus jardines con rayos de sol" tam="foto--lg" pie="El templo y sus jardines" />
+          <Foto src="/img/costado-hora-dorada.jpg" alt="Costado del templo con sus capillas en la hora dorada" tam="foto--lg" pie="Las capillas de la plazuela" />
+        </div>
+      </section>
+
       <section className="section" id="misas">
         <div className="shell">
           <TituloSeccion
@@ -92,7 +71,6 @@ export default function Visita() {
         </div>
       </section>
 
-      {/* ---------- Qué ver ---------- */}
       <section className="section" id="que-ver">
         <div className="shell">
           <TituloSeccion
@@ -117,15 +95,13 @@ export default function Visita() {
             <p className="eyebrow eyebrow--light">Naturaleza y vistas</p>
             <h2>El parque y la Plaza México</h2>
             <p className="lead">
-              El santuario corona un cerro arbolado en el corazón de la ciudad. Abajo, el
-              parque y la Plaza México son punto de encuentro del barrio, y desde la cima se
-              abren las panorámicas sobre la Ciudad de Guatemala que Muybridge fotografió en
-              1875. En el área del parque están también los servicios sanitarios.
+              El santuario corona un cerro arbolado en el corazón de la ciudad. Abajo, el parque y la Plaza
+              México son punto de encuentro del barrio, y desde la cima se abren las panorámicas sobre la
+              Ciudad de Guatemala que Muybridge fotografió en 1875. En el área del parque están también los
+              servicios sanitarios.
             </p>
           </div>
-          <Foto alto="ph--wide">
-            Imagen · el parque, la Plaza México y la ladera del cerro (foto real pendiente)
-          </Foto>
+          <Foto src="/img/pergola-buganvilias.jpg" alt="Pérgola de buganvilias sobre el camino de piedra del parque" tam="foto--lg" pie="El parque del Cerrito" />
         </div>
       </section>
 
@@ -143,27 +119,13 @@ export default function Visita() {
         </div>
       </section>
 
-      {/* ---------- Preguntas frecuentes ---------- */}
-      <section className="section">
-        <div className="shell">
-          <TituloSeccion
-            eyebrow="Preguntas frecuentes"
-            titulo="Lo que más nos preguntan"
-          />
-          <Faq />
-          <p className="note" style={{ marginTop: '26px' }}>
-            ¿Te quedó alguna duda? Escríbenos a {site.correo} o llama al {site.telefono}.
-          </p>
-        </div>
-      </section>
-
       <section className="section section--tight">
         <div className="shell stack stack--md">
           <p className="eyebrow">Siguiente</p>
-          <h2>Apoya al santuario</h2>
+          <h2>Planifica tu celebración religiosa</h2>
           <div>
-            <Link to="/donar" className="btn btn--dark">
-              Ir a donar →
+            <Link to="/celebraciones" className="btn btn--dark">
+              Ir a celebraciones →
             </Link>
           </div>
         </div>

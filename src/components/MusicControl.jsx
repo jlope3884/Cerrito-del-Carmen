@@ -31,7 +31,6 @@ export default function MusicControl() {
         setSonando(true)
       }
     } catch {
-      // el navegador bloqueó la reproducción automática o no hay archivo
       setDisponible(false)
     }
   }

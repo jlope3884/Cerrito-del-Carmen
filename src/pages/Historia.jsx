@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { capitulos, laVirgen, actualidad } from '../data/site.js'
+import { capitulos, laVirgen, actualidad, fotosVirgen } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import './pages.css'
 
@@ -12,11 +12,7 @@ function Capitulo({ c, conFoto }) {
         <h3 style={{ fontSize: '1.6rem' }}>{c.titulo}</h3>
         <p>{c.texto}</p>
       </div>
-      {conFoto ? (
-        <Foto>Imagen · {c.titulo.toLowerCase()} (foto real pendiente)</Foto>
-      ) : (
-        <div />
-      )}
+      {conFoto ? <Foto src={c.img} alt={c.alt} tam="foto--md" /> : <div />}
     </article>
   )
 }
@@ -32,14 +28,14 @@ export default function Historia() {
 
       <section className="section section--tight">
         <div className="shell">
-          <Foto alto="ph--wide">
-            Fotografía histórica a todo el ancho · ruinas del Cerrito tras los terremotos de
-            1917-18 (imagen real pendiente)
-          </Foto>
+          <div className="grid grid--3">
+            <Foto src="/img/torreon-puerta-noche.jpg" alt="El torreón visto a través de la puerta tallada del templo, de noche" tam="foto--lg" pie="El torreón desde la puerta" />
+            <Foto src="/img/costado-cruz-noche.jpg" alt="Costado del templo y la cruz al anochecer" tam="foto--lg" pie="El atrio al anochecer" />
+            <Foto src="/img/silueta-torres.jpg" alt="Silueta de las torres y la cruz al atardecer" tam="foto--lg" pie="Las torres al atardecer" />
+          </div>
         </div>
       </section>
 
-      {/* ---------- I · El pasado ---------- */}
       <section className="section parte" id="el-pasado">
         <div className="shell">
           <TituloSeccion
@@ -48,7 +44,7 @@ export default function Historia() {
             texto="Del valle de las Vacas a la ermita que vio nacer la Nueva Guatemala de la Asunción."
           />
           {capitulos.map((c, i) => (
-            <Capitulo key={c.num} c={c} conFoto={i % 2 === 1} />
+            <Capitulo key={c.num} c={c} conFoto={!!c.img || i % 2 === 1} />
           ))}
         </div>
       </section>
@@ -57,13 +53,12 @@ export default function Historia() {
         <div className="shell stack stack--md">
           <p className="eyebrow eyebrow--light">Importancia histórica</p>
           <p className="quote">
-            En 1875, Eadweard Muybridge fotografió la Ciudad de Guatemala en panorámicas
-            tomadas desde el Cerrito del Carmen.
+            En 1875, Eadweard Muybridge fotografió la Ciudad de Guatemala en panorámicas tomadas desde el
+            Cerrito del Carmen.
           </p>
         </div>
       </section>
 
-      {/* ---------- II · La Virgen ---------- */}
       <section className="section parte" id="la-virgen">
         <div className="shell">
           <TituloSeccion
@@ -72,9 +67,9 @@ export default function Historia() {
             texto="La pequeña imagen que Juan Corz trajo desde Ávila y alrededor de la cual creció la Ciudad de Guatemala."
           />
           <p className="lead" style={{ maxWidth: '78ch', marginBottom: '40px' }}>
-            Es una talla pequeña de madera de cedro vestida con el hábito carmelita. Llegó al
-            valle de las Vacas en manos de un ermitaño y, cuatro siglos después, sigue siendo
-            el centro de la devoción mariana más antigua de la ciudad.
+            Es una talla pequeña de madera de cedro vestida con el hábito carmelita. Llegó al valle de las
+            Vacas en manos de un ermitaño y, cuatro siglos después, sigue siendo el centro de la devoción
+            mariana más antigua de la ciudad.
           </p>
 
           <div className="grid grid--3" style={{ marginBottom: '32px' }}>
@@ -87,14 +82,13 @@ export default function Historia() {
           </div>
 
           <div className="grid grid--3">
-            <Foto>Imagen · la Virgen del Carmen en su camarín (foto real pendiente)</Foto>
-            <Foto>Imagen · la imagen vestida para la fiesta patronal (foto real pendiente)</Foto>
-            <Foto>Imagen · detalle de la talla y el escapulario (foto real pendiente)</Foto>
+            {fotosVirgen.map((f) => (
+              <Foto key={f.alt} src={f.img} alt={f.alt} pie={f.pie} tam="foto--xl" pos="center 30%" />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- III · Actualidad ---------- */}
       <section className="section parte" id="actualidad">
         <div className="shell">
           <TituloSeccion
@@ -119,13 +113,13 @@ export default function Historia() {
           </div>
 
           <div className="grid grid--2" style={{ marginTop: '24px' }}>
-            <Foto>Imagen · la feria del Cerrito en la avenida Juan Chapín (foto real pendiente)</Foto>
-            <Foto>Imagen · la procesión del 16 de julio (foto real pendiente)</Foto>
+            <Foto src="/img/procesion-salida.jpg" alt="Salida de la procesión de la Virgen con incienso y papel picado" tam="foto--lg" pie="La procesión de la fiesta" />
+            <Foto src="/img/torreon-noche-nubes.jpg" alt="El torreón de noche entre nubes" tam="foto--lg" pie="El cerro de noche, tierra de leyendas" />
           </div>
 
           <p className="quote" style={{ color: 'var(--muted)', marginTop: '36px', fontSize: '1.3rem' }}>
-            El santuario está al cuidado de los frailes franciscanos desde 1959 y hoy lo
-            atiende el padre Edwin Muñoz.
+            El santuario está al cuidado de los frailes franciscanos desde 1959 y hoy lo atiende el padre
+            Edwin Muñoz.
           </p>
         </div>
       </section>
@@ -133,10 +127,10 @@ export default function Historia() {
       <section className="section section--tight">
         <div className="shell stack stack--md">
           <p className="eyebrow">Siguiente</p>
-          <h2>Planea tu visita</h2>
+          <h2>La arquitectura de la ermita</h2>
           <div>
-            <Link to="/visita" className="btn btn--dark">
-              Ir a visita →
+            <Link to="/arquitectura" className="btn btn--dark">
+              Ir a arquitectura →
             </Link>
           </div>
         </div>

@@ -1,14 +1,6 @@
-import { site, cuentas, destinoAporte } from '../data/site.js'
-import { PageHero, TituloSeccion } from '../components/Bits.jsx'
+import { site, cuentas, destinoAporte, agradecimientos } from '../data/site.js'
+import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import './pages.css'
-
-const agradecimientos = [
-  { nombre: 'Familia Us Similox', nota: 'Restauración del retablo mayor' },
-  { nombre: 'Cofradía de Nuestra Señora del Carmen', nota: 'Fiesta patronal 2026' },
-  { nombre: 'Vecinos del barrio del Cerrito', nota: 'Mantenimiento del atrio' },
-  { nombre: 'Colegio San José', nota: 'Bandas de la procesión' },
-  { nombre: 'Anónimo', nota: 'Cuidado de las campanas' },
-]
 
 export default function Donar() {
   return (
@@ -19,7 +11,17 @@ export default function Donar() {
         texto="Cada aporte ayuda a conservar cuatro siglos de historia viva: la ermita, sus campanas, el torreón y el culto a la Virgen del Carmen."
       />
 
-      {/* ---------- Cuentas ---------- */}
+      <section className="section section--tight">
+        <div className="shell">
+          <p className="eyebrow" style={{ marginBottom: '20px' }}>Lo que tu aporte conserva</p>
+          <div className="grid grid--3">
+            <Foto src="/img/retablo-cortinas.jpg" alt="El retablo mayor con cortinas amarillo y blanco" tam="foto--lg" pie="El retablo mayor" />
+            <Foto src="/img/campana.jpg" alt="Campana del campanario sobre la ciudad" tam="foto--lg" pie="Las campanas" />
+            <Foto src="/img/torreon-dia.jpg" alt="El torreón sobre la plaza empedrada" tam="foto--lg" pie="El torreón" />
+          </div>
+        </div>
+      </section>
+
       <section className="section" id="cuentas">
         <div className="shell">
           <TituloSeccion
@@ -48,13 +50,12 @@ export default function Donar() {
             ))}
           </div>
           <p className="note" style={{ marginTop: '24px' }}>
-            Envía tu comprobante a {site.correoDonaciones} o al WhatsApp {site.telefono}. Te
-            confirmamos por correo la recepción de tu donación.
+            Envía tu comprobante a {site.correoDonaciones} o al WhatsApp {site.telefono}. Te confirmamos por
+            correo la recepción de tu donación.
           </p>
         </div>
       </section>
 
-      {/* ---------- A dónde va ---------- */}
       <section className="section">
         <div className="shell">
           <TituloSeccion
@@ -67,25 +68,22 @@ export default function Donar() {
               <div key={d.num} className="stack stack--sm">
                 <span className="explorar__num">{d.num}</span>
                 <h3>{d.titulo}</h3>
-                <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.65 }}>
-                  {d.texto}
-                </p>
+                <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.65 }}>{d.texto}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------- Otras formas ---------- */}
       <section className="section section--dark">
         <div className="shell grid grid--2">
           <div className="stack stack--md">
             <p className="eyebrow eyebrow--light">Otras formas de ayudar</p>
             <h2>No todo es dinero</h2>
             <p className="lead">
-              También puedes colaborar con materiales para la conservación, con tu tiempo
-              como voluntario en la fiesta patronal o acompañando las celebraciones del
-              santuario. Escríbenos y te contamos qué se necesita.
+              También puedes colaborar con materiales para la conservación, con tu tiempo como voluntario en
+              la fiesta patronal o acompañando las celebraciones del santuario. Escríbenos y te contamos qué
+              se necesita.
             </p>
           </div>
           <div className="stack stack--md">
@@ -102,7 +100,6 @@ export default function Donar() {
         </div>
       </section>
 
-      {/* ---------- Aviso legal ---------- */}
       <section className="section section--tight">
         <div className="shell">
           <div className="aviso-legal">
@@ -110,15 +107,14 @@ export default function Donar() {
               Aviso legal
             </p>
             <p>
-              Las cantidades recibidas son <strong>ofrendas voluntarias destinadas al culto
-              divino</strong> y al sostenimiento del santuario del Cerrito del Carmen. No
-              constituyen la compra de un bien o servicio, no generan contraprestación alguna
-              y no son reembolsables.
+              Las cantidades recibidas son <strong>ofrendas voluntarias destinadas al culto divino</strong> y
+              al sostenimiento del santuario del Cerrito del Carmen. No constituyen la compra de un bien o
+              servicio, no generan contraprestación alguna y no son reembolsables.
             </p>
             <p>
-              La administración del santuario destina lo recaudado a la conservación del
-              templo, el culto y las actividades pastorales. A solicitud del donante se
-              extiende constancia de la ofrenda recibida.
+              La administración del santuario destina lo recaudado a la conservación del templo, el culto y
+              las actividades pastorales. A solicitud del donante se extiende constancia de la ofrenda
+              recibida.
             </p>
             <p className="note" style={{ marginTop: '14px' }}>
               Texto sujeto a revisión y aprobación de la parroquia antes de publicar.
@@ -127,7 +123,6 @@ export default function Donar() {
         </div>
       </section>
 
-      {/* ---------- Agradecimientos ---------- */}
       <section className="section" id="agradecimientos">
         <div className="shell">
           <TituloSeccion
