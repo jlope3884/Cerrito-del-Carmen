@@ -22,7 +22,7 @@ npm run preview
 | Ruta | Página |
 |---|---|
 | `/` | Inicio |
-| `/historia` | Historia — Pasado · La Virgen · Actualidad |
+| `/historia` | Historia — Pasado · documentos de la reconstrucción · La Virgen · Actualidad |
 | `/arquitectura` | Arquitectura — fachada, torreón, catacumbas, campanas, cruz papal, arte |
 | `/galeria` | Galería con filtros + fototeca de Muybridge |
 | `/visita` | Visita, horarios de misa, qué ver, parque y Plaza México |
@@ -40,7 +40,7 @@ src/
   pages/                ← una por sección
   styles/global.css     ← tokens de color y tipografía + utilidades
 public/
-  audio/                ← aquí va canto-gregoriano.mp3 (música ambiental)
+  audio/                ← canto-gregoriano.mp3: «Veni Sancte Spiritus» (dominio público, Wikimedia Commons)
   img/                  ← fotos optimizadas (máx. 1600 px, JPEG)
   video/                ← vídeos de la galería (pólvora de la fiesta y fachada al atardecer)
 ```
@@ -78,7 +78,7 @@ itálica (citas).
 - Fotos que aún faltan: catacumbas, vistas aéreas y la fototeca histórica (Muybridge).
 - Confirmar que la foto de la cruz del atrio corresponde a la cruz papal.
 - Autorización de los fotógrafos (Mario Cruz Álvarez y las imágenes con marca «N»).
-- Audio del canto gregoriano.
+- Si la parroquia tiene una grabación propia (por ejemplo, el coro del santuario), reemplazar public/audio/canto-gregoriano.mp3.
 - Confirmar con la parroquia: números de cuenta, correos, horarios de misa y el aviso legal.
 - Conectar el envío real del formulario de contacto.
 - Panel administrativo (va aparte, con login y base de datos).

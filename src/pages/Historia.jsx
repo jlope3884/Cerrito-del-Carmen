@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { capitulos, laVirgen, actualidad, fotosVirgen } from '../data/site.js'
+import { capitulos, laVirgen, actualidad, fotosVirgen, documentosReconstruccion } from '../data/site.js'
+import Documentos from '../components/Documentos.jsx'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import './pages.css'
 
@@ -46,6 +47,17 @@ export default function Historia() {
           {capitulos.map((c, i) => (
             <Capitulo key={c.num} c={c} conFoto={!!c.img || i % 2 === 1} />
           ))}
+        </div>
+      </section>
+
+      <section className="section" id="reconstruccion" style={{ paddingTop: 0 }}>
+        <div className="shell">
+          <TituloSeccion
+            eyebrow="Archivo · La reconstrucción"
+            titulo="La reconstrucción en documentos"
+            texto="Fotografías, croquis, planos y recortes que cuentan cómo el Cerrito se levantó después de los terremotos. Haz clic en cada documento para verlo completo."
+          />
+          <Documentos items={documentosReconstruccion} />
         </div>
       </section>
 

@@ -161,9 +161,63 @@ export const capitulos = [
     epoca: '1917 y 1976',
     titulo: 'Los terremotos del siglo XX',
     texto:
-      'El terremoto de 1917-18 derrumbó el templo, reinaugurado el 22 de noviembre de 1925. El de 1976 derribó la torre derecha y el tercer nivel de la fachada y dañó el torreón; su restauración concluyó entre 1981 y 1984.',
-    img: '/img/fachada-torreon-empedrado.jpg',
-    alt: 'La fachada y el torreón restaurados, vistos desde el empedrado',
+      'El terremoto de 1917-18 derrumbó el templo, reinaugurado el 22 de noviembre de 1925. El de 1976 derribó la torre derecha y el tercer nivel de la fachada y dañó el torreón; su restauración concluyó entre 1981 y 1984. Los planos estructurales de la fachada y el atrio se trazaron en septiembre de 1979.',
+    img: '/img/historia/ruinas-interior.jpg',
+    alt: 'Interior de la ermita en ruinas tras un terremoto: el arco del retablo y la cúpula agrietada',
+  },
+  {
+    num: '09',
+    epoca: '29 de octubre de 1995',
+    titulo: 'Santuario de la Virgen del Carmen',
+    texto:
+      'Por resolución del arzobispo metropolitano de Guatemala, monseñor Próspero Penados del Barrio, vigente desde el 29 de octubre de 1995, la antigua ermita y excabecera de la parroquia de Nuestra Señora de la Asunción fue elevada en su categoría canónica a Santuario de la Virgen del Carmen.',
+    img: '/img/historia/santuario-1995.jpg',
+    alt: 'Portada de 1995 «Santuario de la Virgen del Carmen» con la fachada y el torreón',
+  },
+]
+
+/* Documentos de la reconstrucción (escaneos entregados por el equipo) */
+export const documentosReconstruccion = [
+  {
+    img: '/img/historia/ruinas-interior.jpg',
+    fecha: 'Siglo XX',
+    titulo: 'La ermita en ruinas',
+    texto:
+      'Parte interior de la ermita después del terremoto: se ve el retablo que existe hasta hoy y las pinturas de las pechinas de la cúpula, hoy desaparecidas.',
+  },
+  {
+    img: '/img/historia/boceto-fachada.jpg',
+    fecha: 'Reconstrucción',
+    titulo: 'Boceto para proteger la bóveda',
+    texto:
+      'Croquis a mano de la fachada: indica cubrir la abertura de la bóveda con plástico, prensado con reglas y pegado con chapopote sobre la superficie del cañón.',
+  },
+  {
+    img: '/img/historia/plano-1979-cimentacion.jpg',
+    fecha: 'Septiembre de 1979',
+    titulo: 'Planos estructurales · hoja 1',
+    texto:
+      'Planta de cimentación y detalles del atrio y la elevación frontal. Departamento de Estudios y Proyectos de Edificios Públicos de la Dirección General de Obras Públicas.',
+  },
+  {
+    img: '/img/historia/plano-1979-vigas.jpg',
+    fecha: 'Septiembre de 1979',
+    titulo: 'Planos estructurales · hoja 2',
+    texto: 'Localización de vigas, tacos y detalles de la fachada y la torre con su escalera de caracol.',
+  },
+  {
+    img: '/img/historia/diario-1987.jpg',
+    fecha: '22 de octubre de 1987',
+    titulo: 'El Cerrito, «escuela sin muros»',
+    texto:
+      'Nota del Diario de Centro América sobre los pintores que cada domingo suben al Cerrito, convertido en el lugar más pintado de la ciudad.',
+  },
+  {
+    img: '/img/historia/santuario-1995.jpg',
+    fecha: '29 de octubre de 1995',
+    titulo: 'Elevado a santuario',
+    texto:
+      'Resolución de monseñor Próspero Penados del Barrio que eleva la antigua ermita a Santuario de la Virgen del Carmen.',
   },
 ]
 

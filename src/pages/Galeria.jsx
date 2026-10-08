@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { galeria, galeriaFiltros, creditos } from '../data/site.js'
+import { galeria, galeriaFiltros, creditos, documentosReconstruccion } from '../data/site.js'
+import Documentos from '../components/Documentos.jsx'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import './pages.css'
 
@@ -72,6 +73,12 @@ export default function Galeria() {
             </p>
           </div>
           <Foto alt="panorámica de Muybridge tomada desde el Cerrito en 1875" tam="foto--md" />
+        </div>
+        <div className="shell" style={{ marginTop: '64px' }}>
+          <p className="eyebrow eyebrow--light" style={{ marginBottom: '24px' }}>
+            Archivo de la reconstrucción
+          </p>
+          <Documentos items={documentosReconstruccion} claro />
         </div>
       </section>
 

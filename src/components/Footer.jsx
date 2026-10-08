@@ -100,7 +100,7 @@ export default function Footer() {
         <div className="shell footer__bottom-inner">
           <span>
             © {new Date().getFullYear()} Santuario del Cerrito del Carmen · {site.ciudad} · Fotografías: comunidad del
-            Cerrito y Mario Cruz Álvarez
+            Cerrito y Mario Cruz Álvarez · Música: «Veni Sancte Spiritus», canto gregoriano (dominio público)
           </span>
           <span className="footer__legal">
             <a href="#">Notas legales</a>
