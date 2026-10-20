@@ -22,6 +22,15 @@ export const site = {
   correoDonaciones: 'donaciones@cerritodelcarmen.gt',
 }
 
+/* --------------------------------------------------------------------------
+   Publicación: mientras la parroquia no confirme un dato, el sitio NO muestra
+   el dato de ejemplo. Cambiar a `true` cuando esté confirmado.
+   -------------------------------------------------------------------------- */
+export const confirmado = {
+  cuentas: true, // número de cuenta confirmado (libreta Banrural)
+  agradecimientos: false, // lista real de agradecimientos
+}
+
 export const nav = [
   { label: 'Historia', to: '/historia' },
   { label: 'Arquitectura', to: '/arquitectura' },
@@ -33,7 +42,7 @@ export const nav = [
 ]
 
 export const redes = [
-  { nombre: 'Facebook', url: '#', icono: 'facebook' },
+  { nombre: 'Facebook', url: 'https://www.facebook.com/SantuariodelaVirgendelCerritoDelCarmen/', icono: 'facebook' },
   { nombre: 'Instagram', url: '#', icono: 'instagram' },
   { nombre: 'YouTube', url: '#', icono: 'youtube' },
 ]
@@ -63,16 +72,11 @@ export const horarios = {
 
 export const cuentas = [
   {
-    banco: 'Banco Industrial',
-    tipo: 'Monetaria en quetzales (GTQ)',
-    numero: '123-456789-0', // TODO: número real de la parroquia
-    titular: 'Parroquia Santuario del Cerrito del Carmen',
-  },
-  {
     banco: 'Banrural',
-    tipo: 'Monetaria en quetzales (GTQ)',
-    numero: '3-456-78901-2', // TODO: número real de la parroquia
-    titular: 'Parroquia Santuario del Cerrito del Carmen',
+    tipo: 'Cuenta de ahorro',
+    numero: '4445234018',
+    iban: 'GT87 BRRL 0102 0000 0044 4523 4018',
+    titular: 'Santuario del Cerrito del Carmen',
   },
 ]
 
@@ -367,7 +371,7 @@ export const galeria = [
 ]
 
 export const creditos =
-  'Fotografías del santuario compartidas por la comunidad del Cerrito del Carmen. Algunas imágenes son de Mario Cruz Álvarez; se usan con fines de demostración y su publicación final requiere la autorización de sus autores.'
+  'Fotografías del santuario compartidas por la comunidad del Cerrito del Carmen; algunas son obra de Mario Cruz Álvarez. Los derechos de cada imagen pertenecen a sus autores.'
 
 /* ---------- Celebraciones (antes Eventos) ---------- */
 

@@ -82,7 +82,8 @@ export default function Ubicacion() {
           <p className="eyebrow eyebrow--light">Dirección</p>
           <p className="quote">{site.direccion}</p>
           <p className="lead">
-            Teléfono {site.telefono} · {site.correo}
+            Teléfono <a href={`tel:+502${site.telefono.replace(/\s/g, '')}`}>{site.telefono}</a> ·{' '}
+            <a href={`mailto:${site.correo}`}>{site.correo}</a>
           </p>
         </div>
       </section>

@@ -12,6 +12,13 @@ export default function Header() {
   useEffect(() => setOpen(false), [pathname])
 
   useEffect(() => {
+    if (!open) return
+    const cerrar = (e) => e.key === 'Escape' && setOpen(false)
+    window.addEventListener('keydown', cerrar)
+    return () => window.removeEventListener('keydown', cerrar)
+  }, [open])
+
+  useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
@@ -25,9 +32,6 @@ export default function Header() {
           <span className="header__tagline">{site.tagline}</span>
           <div className="header__utility-right">
             <MusicControl />
-            <span className="header__lang">
-              <strong>ES</strong> / EN
-            </span>
           </div>
         </div>
       </div>
@@ -62,6 +66,7 @@ export default function Header() {
             className="header__burger"
             aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={open}
+            aria-controls="menu-movil"
             onClick={() => setOpen((v) => !v)}
           >
             <span />
@@ -72,7 +77,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="menu" role="dialog" aria-label="Menú">
+        <div className="menu" id="menu-movil" role="dialog" aria-modal="true" aria-label="Menú">
           <nav className="menu__list">
             {[{ label: 'Inicio', to: '/' }, ...nav, { label: 'Donar', to: '/donar' }].map((item) => (
               <NavLink key={item.to} to={item.to} className="menu__item">

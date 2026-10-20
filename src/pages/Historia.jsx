@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { capitulos, laVirgen, actualidad, fotosVirgen, documentosReconstruccion } from '../data/site.js'
+import { site, capitulos, laVirgen, actualidad, fotosVirgen, documentosReconstruccion } from '../data/site.js'
 import Documentos from '../components/Documentos.jsx'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import './pages.css'
@@ -130,8 +130,8 @@ export default function Historia() {
           </div>
 
           <p className="quote" style={{ color: 'var(--muted)', marginTop: '36px', fontSize: '1.3rem' }}>
-            El santuario está al cuidado de los frailes franciscanos desde 1959 y hoy lo atiende el padre
-            Edwin Muñoz.
+            El santuario está al cuidado de los frailes franciscanos desde 1959 y hoy lo atiende el{' '}
+            {site.parroco.toLowerCase()}.
           </p>
         </div>
       </section>

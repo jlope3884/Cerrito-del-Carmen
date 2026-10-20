@@ -28,8 +28,9 @@ export function Foto({ src, alt = '', tam = 'foto--md', pos, pie, children }) {
     )
   }
   return (
-    <div className={'foto foto--ph ' + tam}>
-      {children || `Imagen · ${alt} (foto real pendiente)`}
+    <div className={'foto foto--vacia ' + tam} role="img" aria-label={alt}>
+      <span className="foto__emblema" aria-hidden="true">✝</span>
+      {children || <span className="foto__vacia-texto">{alt}</span>}
     </div>
   )
 }

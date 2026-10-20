@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { site, redes } from '../data/site.js'
+import { site, redes, confirmado } from '../data/site.js'
 import Emblema from './Emblema.jsx'
 import './footer.css'
 
@@ -30,7 +30,7 @@ const columnas = [
       { label: 'Contacto', to: '/contacto' },
       { label: 'Preguntas frecuentes', to: '/contacto#faq' },
       { label: 'Donar', to: '/donar' },
-      { label: 'Agradecimientos', to: '/donar#agradecimientos' },
+      ...(confirmado.agradecimientos ? [{ label: 'Agradecimientos', to: '/donar#agradecimientos' }] : []),
     ],
   },
 ]
@@ -53,6 +53,8 @@ function IconoRed({ tipo }) {
     </svg>
   )
 }
+
+const redesActivas = redes.filter((r) => r.url && r.url !== '#')
 
 export default function Footer() {
   return (
@@ -84,16 +86,18 @@ export default function Footer() {
           </div>
         ))}
 
+        {redesActivas.length > 0 && (
         <div className="footer__col">
           <h4 className="footer__coltitle">Síguenos</h4>
           <div className="social">
-            {redes.map((r) => (
+            {redesActivas.map((r) => (
               <a key={r.nombre} href={r.url} className="social__link" aria-label={r.nombre} target="_blank" rel="noreferrer">
                 <IconoRed tipo={r.icono} />
               </a>
             ))}
           </div>
         </div>
+        )}
       </div>
 
       <div className="footer__bottom">
@@ -103,9 +107,9 @@ export default function Footer() {
             Cerrito y Mario Cruz Álvarez · Música: «Veni Sancte Spiritus», canto gregoriano (dominio público)
           </span>
           <span className="footer__legal">
-            <a href="#">Notas legales</a>
-            <a href="#">Política de privacidad</a>
-            <a href="#">Créditos</a>
+            <Link to="/donar#aviso-legal">Aviso legal</Link>
+            <Link to="/privacidad">Política de privacidad</Link>
+            <Link to="/privacidad#creditos">Créditos</Link>
           </span>
         </div>
       </div>

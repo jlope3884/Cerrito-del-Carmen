@@ -1,4 +1,4 @@
-import { site, cuentas, destinoAporte, agradecimientos } from '../data/site.js'
+import { site, cuentas, destinoAporte, agradecimientos, confirmado } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import './pages.css'
 
@@ -27,9 +27,23 @@ export default function Donar() {
           <TituloSeccion
             eyebrow="Transferencia o depósito"
             titulo="Cuentas del santuario"
-            texto="Las donaciones se reciben por transferencia o depósito bancario a nombre de la parroquia. Envíanos tu comprobante y te confirmamos la recepción de tu aporte."
+            texto="Las donaciones se reciben por transferencia o depósito bancario a nombre del Santuario del Cerrito del Carmen. Envíanos tu comprobante y te confirmamos la recepción de tu aporte."
           />
-          <div className="grid grid--2">
+          {!confirmado.cuentas ? (
+            <div className="card" style={{ padding: '32px', maxWidth: '760px' }}>
+              <h3 style={{ fontSize: '1.45rem' }}>Datos de la cuenta</h3>
+              <hr className="divider" style={{ margin: '20px 0 24px' }} />
+              <p>
+                Pide los datos de la cuenta del santuario al despacho parroquial: llámanos al{' '}
+                <a href={`tel:+502${site.telefono.replace(/\s/g, '')}`} style={{ color: 'var(--gold-deep)' }}>{site.telefono}</a> o escríbenos a{' '}
+                <a href={`mailto:${site.correoDonaciones}`} style={{ color: 'var(--gold-deep)' }}>
+                  {site.correoDonaciones}
+                </a>
+                .
+              </p>
+            </div>
+          ) : (
+          <div className={cuentas.length > 1 ? 'grid grid--2' : 'grid'} style={cuentas.length > 1 ? undefined : { maxWidth: '640px' }}>
             {cuentas.map((c) => (
               <div key={c.banco} className="card" style={{ padding: '32px' }}>
                 <h3 style={{ fontSize: '1.45rem' }}>{c.banco}</h3>
@@ -42,6 +56,12 @@ export default function Donar() {
                   <span className="label">Número de cuenta</span>
                   <p className="cuenta__numero">{c.numero}</p>
                 </div>
+                {c.iban && (
+                  <div className="cuenta__fila">
+                    <span className="label">IBAN (transferencias desde el extranjero)</span>
+                    <p style={{ color: 'var(--ink)', letterSpacing: '0.5px' }}>{c.iban}</p>
+                  </div>
+                )}
                 <div className="cuenta__fila">
                   <span className="label">A nombre de</span>
                   <p style={{ color: 'var(--ink)' }}>{c.titular}</p>
@@ -49,8 +69,9 @@ export default function Donar() {
               </div>
             ))}
           </div>
+          )}
           <p className="note" style={{ marginTop: '24px' }}>
-            Envía tu comprobante a {site.correoDonaciones} o al WhatsApp {site.telefono}. Te confirmamos por
+            Envía tu comprobante a {site.correoDonaciones} o llámanos al {site.telefono}. Te confirmamos por
             correo la recepción de tu donación.
           </p>
         </div>
@@ -102,7 +123,7 @@ export default function Donar() {
 
       <section className="section section--tight">
         <div className="shell">
-          <div className="aviso-legal">
+          <div className="aviso-legal" id="aviso-legal">
             <p className="eyebrow" style={{ marginBottom: '14px' }}>
               Aviso legal
             </p>
@@ -116,13 +137,11 @@ export default function Donar() {
               las actividades pastorales. A solicitud del donante se extiende constancia de la ofrenda
               recibida.
             </p>
-            <p className="note" style={{ marginTop: '14px' }}>
-              Texto sujeto a revisión y aprobación de la parroquia antes de publicar.
-            </p>
           </div>
         </div>
       </section>
 
+      {confirmado.agradecimientos && (
       <section className="section" id="agradecimientos">
         <div className="shell">
           <TituloSeccion
@@ -138,11 +157,9 @@ export default function Donar() {
               </div>
             ))}
           </div>
-          <p className="note" style={{ marginTop: '20px' }}>
-            Lista de ejemplo — la parroquia define a quiénes incluir y cómo aparecen.
-          </p>
         </div>
       </section>
+      )}
     </>
   )
 }

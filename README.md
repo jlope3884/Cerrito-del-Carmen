@@ -1,6 +1,6 @@
-# Cerrito del Carmen — sitio web (demo)
+# Cerrito del Carmen — sitio web
 
-Demo del sitio del Santuario del Cerrito del Carmen, hecha en **React + Vite** con CSS propio
+Sitio del Santuario del Cerrito del Carmen, hecha en **React + Vite** con CSS propio
 (sin frameworks de estilos). Sigue el diseño de Figma del proyecto de Horas de Extensión (UVG).
 
 ## Correr el proyecto
@@ -73,12 +73,41 @@ ningún componente.
 Tipografías (Google Fonts): **Cinzel** (títulos), **Inter** (interfaz) y **Cormorant Garamond**
 itálica (citas).
 
+## Publicar en Cloudflare Pages
+
+1. Subir este proyecto a un repositorio de GitHub (de preferencia en una organización a nombre de la parroquia).
+2. En Cloudflare → **Workers & Pages → Create → Pages → Connect to Git** y elegir el repositorio.
+3. Configuración de build:
+   - Framework preset: **Vite** (o React)
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+4. En **Settings → Variables and Secrets** agregar `VITE_WEB3FORMS_KEY` con la clave de Web3Forms
+   (ver `.env.example`) y volver a desplegar.
+5. Listo: queda en `https://<proyecto>.pages.dev`. Cada `git push` a `main` vuelve a publicar.
+6. Dominio propio: **Custom domains → Set up a domain**. Cloudflare indica los nameservers que hay que
+   enviar al registro del dominio; el HTTPS se activa solo.
+
+Las rutas (`/historia`, `/galeria`…) funcionan al recargar sin configurar nada: Cloudflare Pages sirve
+`index.html` cuando no existe un `404.html` en la raíz. **No crear `public/404.html`.**
+
+Sin la clave de Web3Forms, el formulario de contacto abre el correo del visitante con el mensaje listo.
+
+## Datos que la parroquia debe confirmar
+
+En `src/data/site.js`, el objeto `confirmado` controla qué se muestra:
+
+- `cuentas: false` → en Donar se pide llamar al despacho en lugar de mostrar números de cuenta.
+- `agradecimientos: false` → la sección de agradecimientos no aparece.
+
+Al recibir los datos reales: reemplazarlos en `site.js` y cambiar la bandera a `true`.
+
 ## Pendientes
 
-- Fotos que aún faltan: catacumbas, vistas aéreas y la fototeca histórica (Muybridge).
+- Datos reales: números de cuenta, correos, enlaces de redes sociales, horario de visita (¿abre los lunes?) y lista de agradecimientos.
+- Fotos que aún faltan: catacumbas y la panorámica de Muybridge (de dominio público).
 - Confirmar que la foto de la cruz del atrio corresponde a la cruz papal.
 - Autorización de los fotógrafos (Mario Cruz Álvarez y las imágenes con marca «N»).
 - Si la parroquia tiene una grabación propia (por ejemplo, el coro del santuario), reemplazar public/audio/canto-gregoriano.mp3.
 - Confirmar con la parroquia: números de cuenta, correos, horarios de misa y el aviso legal.
-- Conectar el envío real del formulario de contacto.
+- Crear la clave de Web3Forms con el correo de la parroquia.
 - Panel administrativo (va aparte, con login y base de datos).

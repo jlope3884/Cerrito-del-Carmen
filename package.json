@@ -1,9 +1,9 @@
 {
   "name": "cerrito-del-carmen",
   "private": true,
-  "version": "0.2.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "Sitio web del Santuario del Cerrito del Carmen — demo",
+  "description": "Sitio web del Santuario del Cerrito del Carmen",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

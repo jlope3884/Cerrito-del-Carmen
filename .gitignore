@@ -6,6 +6,5 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 npm-debug.log*
-
-# Paquetes de entrega (no versionar: binarios grandes)
-_entrega/
+.env
+.env.local

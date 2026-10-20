@@ -1,8 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 /** Rejilla de documentos históricos (escaneos). Se muestran completos y se amplían al hacer clic. */
 export default function Documentos({ items, claro = false }) {
   const [abierto, setAbierto] = useState(null)
+
+  useEffect(() => {
+    if (!abierto) return
+    const cerrar = (e) => e.key === 'Escape' && setAbierto(null)
+    window.addEventListener('keydown', cerrar)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', cerrar)
+      document.body.style.overflow = ''
+    }
+  }, [abierto])
   return (
     <>
       <div className={'docs' + (claro ? ' docs--claro' : '')}>
