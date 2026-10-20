@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
-import { site, horarios, queVer, recomendaciones } from '../data/site.js'
+import { site, queVer, recomendaciones } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { useAjustes } from '../lib/datos.js'
 import './pages.css'
 
 export default function Visita() {
+  const aj = useAjustes()
   return (
     <>
       <PageHero
@@ -18,7 +20,7 @@ export default function Visita() {
             <div className="card">
               <span className="label">Horario</span>
               <h3>Horario de visita</h3>
-              <p>{horarios.visita}</p>
+              <p>{aj.horario_visita}</p>
             </div>
             <div className="card">
               <span className="label">Entrada</span>
@@ -57,7 +59,7 @@ export default function Visita() {
             texto="El Cerrito es un santuario activo: además de visitarlo, puedes participar en sus celebraciones."
           />
           <div className="grid grid--3">
-            {horarios.misas.map((m) => (
+            {aj.misas.map((m) => (
               <div key={m.dias} className="card horario">
                 <span className="label">{m.dias}</span>
                 <span className="horario__hora">{m.hora}</span>
@@ -66,7 +68,7 @@ export default function Visita() {
             ))}
           </div>
           <p className="note" style={{ marginTop: '22px' }}>
-            {horarios.aviso}
+            {aj.aviso_horarios}
           </p>
         </div>
       </section>

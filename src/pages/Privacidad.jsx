@@ -22,15 +22,18 @@ export default function Privacidad() {
 
           <h3>Qué datos recibimos</h3>
           <p>
-            Solo los que escribes en el formulario de <Link to="/contacto">Contacto</Link>: nombre, correo,
-            asunto y mensaje. Los usamos únicamente para responder tu consulta; no los vendemos, no los
-            compartimos y no te enviaremos publicidad.
+            Solo los que escribes en el formulario de <Link to="/contacto">Contacto</Link> (nombre, correo,
+            asunto y mensaje) y en la solicitud de celebraciones (nombre, teléfono o correo, fecha preferida
+            y mensaje). Los usamos únicamente para responder tu consulta o atender tu solicitud; no los
+            vendemos, no los compartimos y no te enviaremos publicidad.
           </p>
 
           <h3>Cómo se envían</h3>
           <p>
-            El formulario se envía mediante el servicio Web3Forms, que entrega el mensaje al correo del
-            santuario. Los mensajes se conservan solo el tiempo necesario para atender la consulta.
+            El formulario de contacto se envía mediante el servicio Web3Forms, que entrega el mensaje al correo
+            del santuario. Las solicitudes de celebraciones se guardan en la base de datos del santuario
+            (Supabase), a la que solo accede el personal autorizado. Los datos se conservan solo el tiempo
+            necesario para atender cada caso.
           </p>
 
           <h3>Servicios de terceros</h3>

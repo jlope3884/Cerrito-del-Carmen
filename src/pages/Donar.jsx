@@ -1,8 +1,10 @@
 import { site, cuentas, destinoAporte, agradecimientos, confirmado } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { useAjustes } from '../lib/datos.js'
 import './pages.css'
 
 export default function Donar() {
+  const aj = useAjustes()
   return (
     <>
       <PageHero
@@ -35,7 +37,7 @@ export default function Donar() {
               <hr className="divider" style={{ margin: '20px 0 24px' }} />
               <p>
                 Pide los datos de la cuenta del santuario al despacho parroquial: llámanos al{' '}
-                <a href={`tel:+502${site.telefono.replace(/\s/g, '')}`} style={{ color: 'var(--gold-deep)' }}>{site.telefono}</a> o escríbenos a{' '}
+                <a href={`tel:+502${aj.telefono.replace(/\s/g, '')}`} style={{ color: 'var(--gold-deep)' }}>{aj.telefono}</a> o escríbenos a{' '}
                 <a href={`mailto:${site.correoDonaciones}`} style={{ color: 'var(--gold-deep)' }}>
                   {site.correoDonaciones}
                 </a>
@@ -71,7 +73,7 @@ export default function Donar() {
           </div>
           )}
           <p className="note" style={{ marginTop: '24px' }}>
-            Envía tu comprobante a {site.correoDonaciones} o llámanos al {site.telefono}. Te confirmamos por
+            Envía tu comprobante a {site.correoDonaciones} o llámanos al {aj.telefono}. Te confirmamos por
             correo la recepción de tu donación.
           </p>
         </div>
@@ -113,7 +115,7 @@ export default function Donar() {
               {site.correoDonaciones}
             </p>
             <p className="lead">
-              {site.parroco} · {site.telefono}
+              {aj.parroco} · {aj.telefono}
               <br />
               {site.direccion}
             </p>

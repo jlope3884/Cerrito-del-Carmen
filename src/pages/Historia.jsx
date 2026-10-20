@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { site, capitulos, laVirgen, actualidad, fotosVirgen, documentosReconstruccion } from '../data/site.js'
 import Documentos from '../components/Documentos.jsx'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { useAjustes } from '../lib/datos.js'
 import './pages.css'
 
 function Capitulo({ c, conFoto }) {
@@ -19,6 +20,7 @@ function Capitulo({ c, conFoto }) {
 }
 
 export default function Historia() {
+  const aj = useAjustes()
   return (
     <>
       <PageHero
@@ -131,7 +133,7 @@ export default function Historia() {
 
           <p className="quote" style={{ color: 'var(--muted)', marginTop: '36px', fontSize: '1.3rem' }}>
             El santuario está al cuidado de los frailes franciscanos desde 1959 y hoy lo atiende el{' '}
-            {site.parroco.toLowerCase()}.
+            {aj.parroco.toLowerCase()}.
           </p>
         </div>
       </section>

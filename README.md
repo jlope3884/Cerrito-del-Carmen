@@ -73,6 +73,19 @@ ningún componente.
 Tipografías (Google Fonts): **Cinzel** (títulos), **Inter** (interfaz) y **Cormorant Garamond**
 itálica (citas).
 
+## Panel administrativo (CRM)
+
+En `/admin` hay un panel con inicio de sesión para manejar **eventos** (con tipos y colores
+personalizables, imagen y botón), **solicitudes** que llegan desde Celebraciones y los **ajustes** del sitio
+(párroco y horarios). Usa Supabase (gratis). La configuración paso a paso está en
+[`supabase/LEEME.md`](supabase/LEEME.md) y el esquema de la base en `supabase/schema.sql`.
+
+```
+src/admin/      ← pantallas del panel (se descargan solo al entrar a /admin)
+src/lib/        ← conexión con Supabase, fechas en hora de Guatemala y datos para el sitio
+supabase/       ← esquema SQL y guía de configuración
+```
+
 ## Publicar en Cloudflare Pages
 
 1. Subir este proyecto a un repositorio de GitHub (de preferencia en una organización a nombre de la parroquia).
@@ -81,8 +94,8 @@ itálica (citas).
    - Framework preset: **Vite** (o React)
    - Build command: `npm run build`
    - Build output directory: `dist`
-4. En **Settings → Variables and Secrets** agregar `VITE_WEB3FORMS_KEY` con la clave de Web3Forms
-   (ver `.env.example`) y volver a desplegar.
+4. En **Settings → Variables and Secrets** agregar `VITE_WEB3FORMS_KEY` (formulario de contacto) y
+   `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` (CRM). Ver `.env.example`. Volver a desplegar.
 5. Listo: queda en `https://<proyecto>.pages.dev`. Cada `git push` a `main` vuelve a publicar.
 6. Dominio propio: **Custom domains → Set up a domain**. Cloudflare indica los nameservers que hay que
    enviar al registro del dominio; el HTTPS se activa solo.
@@ -110,4 +123,3 @@ Al recibir los datos reales: reemplazarlos en `site.js` y cambiar la bandera a `
 - Si la parroquia tiene una grabación propia (por ejemplo, el coro del santuario), reemplazar public/audio/canto-gregoriano.mp3.
 - Confirmar con la parroquia: números de cuenta, correos, horarios de misa y el aviso legal.
 - Crear la clave de Web3Forms con el correo de la parroquia.
-- Panel administrativo (va aparte, con login y base de datos).

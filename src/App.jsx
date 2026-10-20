@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
@@ -13,6 +13,9 @@ import Contacto from './pages/Contacto.jsx'
 import Donar from './pages/Donar.jsx'
 import Privacidad from './pages/Privacidad.jsx'
 import NoEncontrada from './pages/NoEncontrada.jsx'
+
+// El panel se descarga aparte: los visitantes del sitio no lo cargan.
+const AdminApp = lazy(() => import('./admin/AdminApp.jsx'))
 
 const BASE = 'Cerrito del Carmen'
 const META = {
@@ -54,6 +57,16 @@ function ScrollManager() {
 }
 
 export default function App() {
+  const { pathname } = useLocation()
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+    return (
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/admin/*" element={<AdminApp />} />
+        </Routes>
+      </Suspense>
+    )
+  }
   return (
     <>
       <ScrollManager />

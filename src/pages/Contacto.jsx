@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { site, faqs, redes } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { useAjustes } from '../lib/datos.js'
 import './pages.css'
 
 function Faq() {
@@ -32,9 +33,10 @@ function Faq() {
 const CLAVE_FORMULARIO = import.meta.env.VITE_WEB3FORMS_KEY
 
 const redesActivas = redes.filter((r) => r.url && r.url !== '#')
-const telHref = `tel:+502${site.telefono.replace(/\s/g, '')}`
 
 export default function Contacto() {
+  const aj = useAjustes()
+  const telHref = `tel:+502${aj.telefono.replace(/\s/g, '')}`
   const [estado, setEstado] = useState('listo') // listo | enviando | enviado | error
 
   async function enviar(e) {
@@ -47,7 +49,7 @@ export default function Contacto() {
       // Sin clave configurada: abrir el correo del visitante con el mensaje listo.
       const asunto = encodeURIComponent(`[Sitio web] ${datos.get('asunto') || 'Consulta'}`)
       const cuerpo = encodeURIComponent(`${datos.get('mensaje')}\n\n${datos.get('nombre')} · ${datos.get('correo')}`)
-      window.location.href = `mailto:${site.correo}?subject=${asunto}&body=${cuerpo}`
+      window.location.href = `mailto:${aj.correo}?subject=${asunto}&body=${cuerpo}`
       return
     }
 
@@ -80,7 +82,7 @@ export default function Contacto() {
             <TituloSeccion eyebrow="Escríbenos" titulo="Envíanos un mensaje" />
             {estado === 'enviado' ? (
               <div className="exito" role="status">
-                Gracias por escribirnos. Recibimos tu mensaje; el {site.parroco.toLowerCase()} o el equipo del
+                Gracias por escribirnos. Recibimos tu mensaje; el {aj.parroco.toLowerCase()} o el equipo del
                 santuario te responderán lo antes posible.
               </div>
             ) : (
@@ -123,7 +125,7 @@ export default function Contacto() {
                 {estado === 'error' && (
                   <p className="form__error" role="alert">
                     No pudimos enviar tu mensaje. Inténtalo de nuevo o escríbenos a{' '}
-                    <a href={`mailto:${site.correo}`}>{site.correo}</a>.
+                    <a href={`mailto:${aj.correo}`}>{aj.correo}</a>.
                   </p>
                 )}
                 <div>
@@ -144,18 +146,18 @@ export default function Contacto() {
             <div className="datos__fila">
               <span className="label">Teléfono</span>
               <p>
-                <a href={telHref}>{site.telefono}</a>
+                <a href={telHref}>{aj.telefono}</a>
               </p>
             </div>
             <div className="datos__fila">
               <span className="label">Correo</span>
               <p>
-                <a href={`mailto:${site.correo}`}>{site.correo}</a>
+                <a href={`mailto:${aj.correo}`}>{aj.correo}</a>
               </p>
             </div>
             <div className="datos__fila">
               <span className="label">Párroco</span>
-              <p>{site.parroco}</p>
+              <p>{aj.parroco}</p>
             </div>
             {redesActivas.length > 0 && (
             <div className="datos__fila">

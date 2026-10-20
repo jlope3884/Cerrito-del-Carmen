@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
-import { site, horarios, lineaDeTiempo } from '../data/site.js'
+import { site, lineaDeTiempo } from '../data/site.js'
 import { TituloSeccion, Foto } from '../components/Bits.jsx'
+import { useAjustes, useProximosEventos } from '../lib/datos.js'
+import EventoCard from '../components/EventoCard.jsx'
 import './pages.css'
 
 const explorar = [
@@ -11,6 +13,8 @@ const explorar = [
 ]
 
 export default function Home() {
+  const aj = useAjustes()
+  const { eventos: destacados, desdeCRM } = useProximosEventos({ limite: 3, soloDestacados: true })
   return (
     <>
       <section className="hero">
@@ -65,6 +69,24 @@ export default function Home() {
         </div>
       </section>
 
+      {desdeCRM && destacados.length > 0 && (
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="shell">
+            <TituloSeccion eyebrow="Agenda" titulo="Próximos eventos" />
+            <div className="eventos">
+              {destacados.map((ev) => (
+                <EventoCard key={ev.id} ev={ev} />
+              ))}
+            </div>
+            <div style={{ marginTop: '24px' }}>
+              <Link to="/celebraciones#agenda" className="btn btn--ghost-dark">
+                Ver toda la agenda
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="cita">
         <div className="shell cita__grid">
           <Foto
@@ -93,7 +115,7 @@ export default function Home() {
               titulo="Planea tu visita"
               texto="El santuario se encuentra en la cima del cerro del Carmen, en el Centro Histórico. Se sube por el atrio empedrado, junto al torreón y las cuatro capillas de la plazuela."
             />
-            <p className="note">{horarios.visita} · Entrada gratuita · Parqueo gratuito</p>
+            <p className="note">{aj.horario_visita} · Entrada gratuita · Parqueo gratuito</p>
             <div className="hero__ctas">
               <Link to="/ubicacion" className="btn btn--dark">
                 Cómo llegar

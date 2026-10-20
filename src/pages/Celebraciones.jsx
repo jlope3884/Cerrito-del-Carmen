@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
-import { site, horarios, sacramentos, agenda } from '../data/site.js'
+import { sacramentos } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { useAjustes, useProximosEventos } from '../lib/datos.js'
+import { hayCRM } from '../lib/config.js'
+import EventoCard from '../components/EventoCard.jsx'
+import FormSolicitud from '../components/FormSolicitud.jsx'
 import './pages.css'
 
 export default function Celebraciones() {
+  const aj = useAjustes()
+  const { eventos, cargando, desdeCRM } = useProximosEventos({ limite: 20 })
   return (
     <>
       <PageHero
@@ -33,11 +39,17 @@ export default function Celebraciones() {
             <Foto src="/img/puerta-arco-flores.jpg" alt="Arco de flores en la puerta del templo" tam="foto--lg" pos="center 12%" pie="La puerta del santuario" />
           </div>
           <div className="hero__ctas" style={{ marginTop: '32px' }}>
-            <Link to="/contacto" className="btn btn--dark">
-              Solicitar una celebración
-            </Link>
-            <a href={`tel:${site.telefono.replace(/\s/g, '')}`} className="btn btn--ghost-dark">
-              Llamar al {site.telefono}
+            {hayCRM ? (
+              <a href="#solicitar" className="btn btn--dark">
+                Solicitar una celebración
+              </a>
+            ) : (
+              <Link to="/contacto" className="btn btn--dark">
+                Solicitar una celebración
+              </Link>
+            )}
+            <a href={`tel:${aj.telefono.replace(/\s/g, '')}`} className="btn btn--ghost-dark">
+              Llamar al {aj.telefono}
             </a>
           </div>
         </div>
@@ -47,7 +59,7 @@ export default function Celebraciones() {
         <div className="shell">
           <TituloSeccion eyebrow="Horarios de misa" titulo="Misas en el santuario" />
           <div className="grid grid--3">
-            {horarios.misas.map((m) => (
+            {aj.misas.map((m) => (
               <div key={m.dias} className="card horario">
                 <span className="label">{m.dias}</span>
                 <span className="horario__hora">{m.hora}</span>
@@ -56,7 +68,7 @@ export default function Celebraciones() {
             ))}
           </div>
           <p className="note" style={{ marginTop: '22px' }}>
-            {horarios.aviso}
+            {aj.aviso_horarios}
           </p>
           <div className="grid grid--2" style={{ marginTop: '32px' }}>
             <Foto src="/img/misa-fieles.jpg" alt="Fieles en misa con el altar de fiesta al fondo" tam="foto--lg" pos="center 35%" pie="Misa de fiesta" />
@@ -85,23 +97,47 @@ export default function Celebraciones() {
         <div className="shell">
           <TituloSeccion
             eyebrow="Agenda"
-            titulo="Calendario de celebraciones"
-            texto="Fechas de referencia de la celebración anual. El programa detallado de cada año lo publica el santuario."
+            titulo="Próximas celebraciones"
+            texto={
+              desdeCRM
+                ? 'Fiestas, procesiones y celebraciones especiales del santuario.'
+                : 'Fechas de referencia de la celebración anual. El programa detallado de cada año lo publica el santuario.'
+            }
           />
-          {agenda.map((a) => (
-            <div key={a.tipo} className="agenda__fila">
-              <div>
-                <span className="agenda__dia">{a.dia}</span>
-                <span className="agenda__cuando">{a.cuando}</span>
+          {cargando && <p className="note">Cargando la agenda…</p>}
+          {!cargando && desdeCRM && eventos.length === 0 && (
+            <p className="note">Por ahora no hay celebraciones especiales programadas. Revisa los horarios de misa.</p>
+          )}
+          {!cargando && desdeCRM && <div className="eventos">{eventos.map((ev) => <EventoCard key={ev.id} ev={ev} />)}</div>}
+          {!cargando &&
+            !desdeCRM &&
+            eventos.map((a) => (
+              <div key={a.tipo} className="agenda__fila">
+                <div>
+                  <span className="agenda__dia">{a.dia}</span>
+                  <span className="agenda__cuando">{a.cuando}</span>
+                </div>
+                <div>
+                  <span className="agenda__tipo">{a.tipo}</span>
+                  <span className="agenda__titulo">{a.titulo}</span>
+                </div>
               </div>
-              <div>
-                <span className="agenda__tipo">{a.tipo}</span>
-                <span className="agenda__titulo">{a.titulo}</span>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </section>
+
+      {hayCRM && (
+        <section className="section" id="solicitar">
+          <div className="shell grid grid--2" style={{ gap: '64px' }}>
+            <TituloSeccion
+              eyebrow="Solicitudes"
+              titulo="Solicita tu celebración"
+              texto="Déjanos tus datos y el despacho parroquial te contactará para confirmar la fecha y explicarte los requisitos."
+            />
+            <FormSolicitud />
+          </div>
+        </section>
+      )}
 
       <section className="section section--tight">
         <div className="shell stack stack--md">

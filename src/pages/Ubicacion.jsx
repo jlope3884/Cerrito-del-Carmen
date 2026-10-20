@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { site, comoLlegar, referencias } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { useAjustes } from '../lib/datos.js'
 import './pages.css'
 
 export default function Ubicacion() {
+  const aj = useAjustes()
   return (
     <>
       <PageHero
@@ -82,8 +84,8 @@ export default function Ubicacion() {
           <p className="eyebrow eyebrow--light">Dirección</p>
           <p className="quote">{site.direccion}</p>
           <p className="lead">
-            Teléfono <a href={`tel:+502${site.telefono.replace(/\s/g, '')}`}>{site.telefono}</a> ·{' '}
-            <a href={`mailto:${site.correo}`}>{site.correo}</a>
+            Teléfono <a href={`tel:+502${aj.telefono.replace(/\s/g, '')}`}>{aj.telefono}</a> ·{' '}
+            <a href={`mailto:${aj.correo}`}>{aj.correo}</a>
           </p>
         </div>
       </section>

@@ -1,0 +1,124 @@
+.evento {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 22px;
+  padding: 26px 0;
+  border-top: 1px solid var(--border);
+}
+
+.evento--foto {
+  grid-template-columns: 220px 76px 1fr;
+}
+
+.evento__foto {
+  height: 150px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--image-bl);
+}
+
+.evento__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.evento__fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 76px;
+  border: 1px solid var(--gold-deep);
+  border-top-width: 4px;
+  background: var(--card);
+}
+
+.evento__dia {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.evento__mes {
+  margin-top: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.evento__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.evento__tipo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.evento__tipo i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.evento__titulo {
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+.evento__cuando {
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.evento__lugar,
+.evento__desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.evento__boton {
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+.evento--compacta {
+  grid-template-columns: 64px 1fr;
+  padding: 18px 0;
+}
+
+.evento--compacta .evento__foto {
+  display: none;
+}
+
+.evento--compacta .evento__fecha {
+  height: 64px;
+}
+
+.evento--compacta .evento__titulo {
+  font-size: 1.15rem;
+}
+
+@media (max-width: 760px) {
+  .evento--foto {
+    grid-template-columns: 64px 1fr;
+  }
+  .evento--foto .evento__foto {
+    grid-column: 1 / -1;
+    height: 180px;
+  }
+}

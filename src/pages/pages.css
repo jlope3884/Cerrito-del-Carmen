@@ -850,3 +850,4 @@ button[disabled] {
 .legal a {
   color: var(--gold-deep);
 }
+.eventos { border-bottom: 1px solid var(--border); }
