@@ -42,14 +42,28 @@ export function cuando(ev) {
   return mayus(cuandoBase(ev))
 }
 
+/** "2026-07-16" → "2026-07-17" (día calendario siguiente) */
+export function diaSiguiente(fecha) {
+  const d = new Date(`${fecha}T12:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + 1)
+  return d.toISOString().slice(0, 10)
+}
+
+const horaSola = (iso) => hora(iso).replace(/ h$/, '')
+
 function cuandoBase(ev) {
   const ini = fechaLarga(ev.inicio)
+  const diaIni = deISO(ev.inicio).fecha
+  const diaFin = ev.fin ? deISO(ev.fin).fecha : ''
   if (ev.todo_el_dia) {
-    if (ev.fin && deISO(ev.fin).fecha !== deISO(ev.inicio).fecha) return `Del ${fechaCorta(ev.inicio)} al ${fechaCorta(ev.fin)}`
+    if (diaFin && diaFin !== diaIni) return `Del ${fechaCorta(ev.inicio)} al ${fechaCorta(ev.fin)}`
     return ini
   }
-  const fin = ev.fin && deISO(ev.fin).fecha === deISO(ev.inicio).fecha ? ` a ${hora(ev.fin)}` : ''
-  return `${ini} · ${hora(ev.inicio)}${fin}`
+  if (!diaFin) return `${ini} · ${hora(ev.inicio)}`
+  if (diaFin === diaIni) return `${ini} · ${horaSola(ev.inicio)} a ${hora(ev.fin)}`
+  // Termina pasada la medianoche (una vigilia, por ejemplo)
+  if (diaFin === diaSiguiente(diaIni)) return `${ini} · ${horaSola(ev.inicio)} a ${hora(ev.fin)} del día siguiente`
+  return `Del ${fechaCorta(ev.inicio)}, ${hora(ev.inicio)} al ${fechaCorta(ev.fin)}, ${hora(ev.fin)}`
 }
 
 /** Inicio del día de hoy en Guatemala, en ISO */

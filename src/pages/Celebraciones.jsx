@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { sacramentos } from '../data/site.js'
-import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { PageHero, TituloSeccion, Foto, Siguiente } from '../components/Bits.jsx'
+import HorariosMisa from '../components/HorariosMisa.jsx'
 import { useAjustes, useProximosEventos } from '../lib/datos.js'
 import { hayCRM } from '../lib/config.js'
+import { telHref } from '../lib/texto.js'
 import EventoCard from '../components/EventoCard.jsx'
 import FormSolicitud from '../components/FormSolicitud.jsx'
 import './pages.css'
@@ -10,11 +12,13 @@ import './pages.css'
 export default function Celebraciones() {
   const aj = useAjustes()
   const { eventos, cargando, desdeCRM } = useProximosEventos({ limite: 20 })
+  // Mientras carga con CRM se asume la agenda del CRM, para no cambiar el título al terminar.
+  const agendaCRM = desdeCRM || (cargando && hayCRM)
   return (
     <>
       <PageHero
         eyebrow="Celebraciones"
-        titulo="Planifica tu celebración religiosa"
+        titulo="Planea tu celebración religiosa"
         texto="Bautizos, primeras comuniones, confirmaciones y matrimonios en el santuario mariano más antiguo de la ciudad, además de la fiesta patronal de la Virgen del Carmen."
       />
 
@@ -48,7 +52,7 @@ export default function Celebraciones() {
                 Solicitar una celebración
               </Link>
             )}
-            <a href={`tel:${aj.telefono.replace(/\s/g, '')}`} className="btn btn--ghost-dark">
+            <a href={telHref(aj.telefono)} className="btn btn--ghost-dark">
               Llamar al {aj.telefono}
             </a>
           </div>
@@ -58,15 +62,7 @@ export default function Celebraciones() {
       <section className="section" id="misas">
         <div className="shell">
           <TituloSeccion eyebrow="Horarios de misa" titulo="Misas en el santuario" />
-          <div className="grid grid--3">
-            {aj.misas.map((m) => (
-              <div key={m.dias} className="card horario">
-                <span className="label">{m.dias}</span>
-                <span className="horario__hora">{m.hora}</span>
-                <p>{m.detalle}</p>
-              </div>
-            ))}
-          </div>
+          <HorariosMisa misas={aj.misas} />
           <p className="note" style={{ marginTop: '22px' }}>
             {aj.aviso_horarios}
           </p>
@@ -97,9 +93,9 @@ export default function Celebraciones() {
         <div className="shell">
           <TituloSeccion
             eyebrow="Agenda"
-            titulo="Próximas celebraciones"
+            titulo={agendaCRM ? 'Próximas celebraciones' : 'Celebraciones del año'}
             texto={
-              desdeCRM
+              agendaCRM
                 ? 'Fiestas, procesiones y celebraciones especiales del santuario.'
                 : 'Fechas de referencia de la celebración anual. El programa detallado de cada año lo publica el santuario.'
             }
@@ -139,17 +135,9 @@ export default function Celebraciones() {
         </section>
       )}
 
-      <section className="section section--tight">
-        <div className="shell stack stack--md">
-          <p className="eyebrow">Siguiente</p>
-          <h2>Cómo llegar al santuario</h2>
-          <div>
-            <Link to="/ubicacion" className="btn btn--dark">
-              Ir a ubicación →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Siguiente titulo="Cómo llegar al santuario" to="/ubicacion">
+        Ir a ubicación
+      </Siguiente>
     </>
   )
 }

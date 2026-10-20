@@ -11,10 +11,19 @@
 
 .footer__main {
   display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr) 0.7fr;
+  /* 1.6fr: a 1440px el nombre cabe en una línea; más angosto pasa a dos (white-space: normal) */
+  grid-template-columns: 1.6fr repeat(3, 1fr) 0.7fr;
   gap: 44px;
   padding-top: 56px;
   padding-bottom: 48px;
+}
+
+/* Las tres columnas de enlaces van dentro de <nav>: ocupan 3 pistas de la rejilla */
+.footer__nav {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 44px;
 }
 
 .footer__logo {
@@ -26,6 +35,7 @@
 
 .footer__name {
   font-size: 1.2rem;
+  white-space: normal;
 }
 
 .footer__desc {
@@ -46,6 +56,7 @@
   font-family: var(--font-ui);
   font-size: 0.69rem;
   font-weight: 600;
+  line-height: 1.4;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--gold);
@@ -107,7 +118,12 @@
 
 .footer__legal {
   display: flex;
+  flex-shrink: 0;
   gap: 22px;
+}
+
+.footer__legal a {
+  white-space: nowrap;
 }
 
 .footer__legal a:hover {
@@ -119,11 +135,32 @@
     grid-template-columns: 1fr 1fr;
     gap: 36px;
   }
+  /* Marca y redes arriba; los enlaces debajo, a todo el ancho */
+  .footer__nav {
+    grid-column: 1 / -1;
+    gap: 36px;
+  }
+  .footer__redes {
+    grid-column: 2;
+    grid-row: 1;
+  }
 }
 
 @media (max-width: 640px) {
   .footer__main {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 20px;
+  }
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+  .footer__redes {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+  .footer__nav {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 20px;
   }
   .footer__bottom-inner {
     flex-direction: column;
@@ -134,5 +171,12 @@
   .footer__legal {
     flex-wrap: wrap;
     gap: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .footer__name {
+    font-size: 1rem;
+    letter-spacing: 1.5px;
   }
 }

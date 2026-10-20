@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
 import { site, creditos } from '../data/site.js'
 import { PageHero } from '../components/Bits.jsx'
+import { useAjustes } from '../lib/datos.js'
+import { telHref } from '../lib/texto.js'
 import './pages.css'
 
 export default function Privacidad() {
+  // Correo y teléfono del panel (Ajustes); sin CRM, los de site.js.
+  const aj = useAjustes()
   return (
     <>
       <PageHero
@@ -39,14 +43,15 @@ export default function Privacidad() {
           <h3>Servicios de terceros</h3>
           <p>
             Algunas páginas cargan contenido de otros servicios, que pueden registrar datos técnicos de tu
-            visita (como la dirección IP): Google Maps, en la página de Ubicación, y Google Fonts, para las
-            tipografías del sitio.
+            visita (como la dirección IP): Google Maps, solo si abres el mapa interactivo en la página de
+            Ubicación, y Google Fonts, para las tipografías del sitio.
           </p>
 
           <h3>Tus derechos</h3>
           <p>
             Puedes pedirnos que corrijamos o borremos los datos que nos enviaste escribiendo a{' '}
-            <a href={`mailto:${site.correo}`}>{site.correo}</a> o llamando al {site.telefono}.
+            <a href={`mailto:${aj.correo}`}>{aj.correo}</a> o llamando al{' '}
+            <a href={telHref(aj.telefono)}>{aj.telefono}</a>.
           </p>
 
           <h2 id="creditos" style={{ marginTop: '56px' }}>

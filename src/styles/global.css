@@ -9,10 +9,16 @@
   --ink: #211a15;
   --ink-deep: #1a1410;
   --muted: #4d4238;
-  --placeholder: #8c8073;
+  /* Texto tenue (etiquetas, notas): 5.2:1 sobre --cream */
+  --placeholder: #716659;
   --border: #d1c4b3;
+  /* Bordes de campos de formulario: 3.4:1 sobre --cream (WCAG 1.4.11) */
+  --border-input: #8f8475;
+  /* --gold y --gold-deep: filetes, bordes y fondos. Sobre --ink el dorado da 7:1 */
   --gold: #c6a15b;
   --gold-deep: #b38c47;
+  /* Solo para TEXTO dorado sobre fondos claros: 5.3:1 sobre --cream */
+  --gold-text: #806229;
   --cream-text: #f4ede1;
   --footer-text: #c9bca9;
   --image-bl: #ede8de;
@@ -24,6 +30,12 @@
   --maxw: 1440px;
   --gutter: 96px;
   --radius: 3px;
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --gutter: 48px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -38,6 +50,17 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* El header es sticky: que no tape el destino de las anclas (#misas, #faq…) */
+[id] {
+  scroll-margin-top: 120px;
 }
 
 body {
@@ -63,6 +86,54 @@ a {
 button {
   font: inherit;
   cursor: pointer;
+}
+
+/* ---------- Accesibilidad: foco visible y enlace de salto ---------- */
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Sobre fondos oscuros el contorno va en dorado */
+.header :focus-visible,
+.footer :focus-visible,
+.section--dark :focus-visible,
+.pagehero :focus-visible,
+.cita :focus-visible,
+.hero :focus-visible,
+.visor :focus-visible,
+.menu :focus-visible {
+  outline-color: var(--gold);
+}
+
+.saltar {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 600;
+  border-radius: var(--radius);
+}
+
+.saltar:focus {
+  top: 8px;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* Enlaces dentro de texto corrido: subrayados para no depender solo del color.
+   Especificidad baja (:where) para que cualquier componente pueda anularlo;
+   el pie y el encabezado quedan fuera porque son listas de navegación. */
+:where(p, li) > a:where(:not(.btn, [class*='nav'], .header *, .footer *, .menu *)) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
 /* ---------- Tipografía ---------- */
@@ -97,7 +168,7 @@ p {
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--gold-deep);
+  color: var(--gold-text);
   margin: 0;
 }
 
@@ -177,6 +248,11 @@ p {
   gap: 24px;
 }
 
+/* Que ninguna tarjeta (p. ej. un número de cuenta largo) ensanche su columna y desborde la página */
+.grid > * {
+  min-width: 0;
+}
+
 .grid--2 {
   grid-template-columns: repeat(2, 1fr);
 }
@@ -194,8 +270,13 @@ p {
   }
 }
 
+@media (max-width: 900px) {
+  .grid--2 {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 720px) {
-  .grid--2,
   .grid--3,
   .grid--4 {
     grid-template-columns: 1fr;
@@ -265,10 +346,11 @@ p {
 
 .btn--ghost-dark {
   border-color: var(--gold-deep);
-  color: var(--gold-deep);
+  color: var(--gold-text);
   background: transparent;
 }
 .btn--ghost-dark:hover {
+  color: var(--gold-text);
   background: rgba(179, 140, 71, 0.1);
 }
 
@@ -332,6 +414,15 @@ p {
 }
 .foto--xl {
   min-height: 560px;
+}
+
+@media (max-width: 720px) {
+  .foto--lg {
+    min-height: clamp(240px, 70vw, 320px);
+  }
+  .foto--xl {
+    min-height: 340px;
+  }
 }
 
 /* ---------- Utilidades ---------- */

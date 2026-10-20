@@ -65,9 +65,11 @@
   font-weight: 600;
   letter-spacing: 1.4px;
   text-transform: uppercase;
+  color: var(--muted);
 }
 
 .evento__tipo i {
+  flex: none;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -92,6 +94,7 @@
 }
 
 .evento__boton {
+  position: relative; /* ancla del texto .visually-hidden */
   align-self: flex-start;
   margin-top: 8px;
 }

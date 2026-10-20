@@ -3,12 +3,13 @@ import { site, lineaDeTiempo } from '../data/site.js'
 import { TituloSeccion, Foto } from '../components/Bits.jsx'
 import { useAjustes, useProximosEventos } from '../lib/datos.js'
 import EventoCard from '../components/EventoCard.jsx'
+import { sinViuda } from '../lib/texto.js'
 import './pages.css'
 
 const explorar = [
   { num: '01', titulo: 'Historia', texto: 'Del valle de las Vacas al santuario que vio nacer la capital de Guatemala.', to: '/historia', img: '/img/juan-corz-estatua.jpg', pos: 'center 30%' },
   { num: '02', titulo: 'Arquitectura', texto: 'Fachada ultrabarroca, retablo mayor, torreón, catacumbas y campanas.', to: '/arquitectura', img: '/img/fachada.jpg', pos: 'center 40%' },
-  { num: '03', titulo: 'Galería', texto: 'La fiesta, el interior, el parque y las panorámicas de Muybridge de 1875.', to: '/galeria', img: '/img/cupula-flores.jpg' },
+  { num: '03', titulo: 'Galería', texto: 'La fiesta, el interior, el parque y el archivo de la reconstrucción.', to: '/galeria', img: '/img/cupula-flores.jpg' },
   { num: '04', titulo: 'Visita', texto: 'Horarios, misas, cómo llegar y qué ver en el cerro, su atrio y el parque.', to: '/visita', img: '/img/torreon-dia.jpg' },
 ]
 
@@ -18,14 +19,14 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <img className="hero__bg" src="/img/hero-templo-atardecer.jpg" alt="" aria-hidden="true" />
+        <img className="hero__bg" src="/img/hero-templo-atardecer.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
         <div className="shell hero__inner">
           <p className="eyebrow eyebrow--light">{site.tagline}</p>
           <h1>El Cerrito del Carmen</h1>
           <p className="hero__sub">En la cima del cerro, el origen de la Ciudad de Guatemala.</p>
           <div className="hero__ctas">
             <Link to="/historia" className="btn btn--primary">
-              Descubrir la historia
+              Descubre la historia
             </Link>
             <Link to="/visita" className="btn btn--ghost">
               Planea tu visita
@@ -39,7 +40,7 @@ export default function Home() {
           <TituloSeccion
             eyebrow="El santuario"
             titulo="Una ermita anterior a la ciudad"
-            texto="Levantada al menos cien años antes que la capital que ayudó a nacer. Consagrada a la Virgen del Carmen y declarada Patrimonio Cultural de la Nación, desde el Cerrito se trazó la Nueva Guatemala de la Asunción tras el traslado aprobado en 1775. Ha sido reconstruida después de los terremotos de 1917 y 1976."
+            texto="La ermita se levantó al menos cien años antes que la capital que ayudó a nacer: desde el Cerrito se trazó la Nueva Guatemala de la Asunción tras el traslado aprobado en 1775. Consagrada a la Virgen del Carmen y declarada Patrimonio Cultural de la Nación, la ermita ha sido reconstruida después de los terremotos de 1917 y 1976."
           />
           <div className="timeline">
             {lineaDeTiempo.map((t) => (
@@ -62,7 +63,7 @@ export default function Home() {
                 <span className="explorar__num">{e.num}</span>
                 <h3>{e.titulo}</h3>
                 <p>{e.texto}</p>
-                <span className="explorar__más">Explorar →</span>
+                <span className="explorar__más">Explora →</span>
               </Link>
             ))}
           </div>
@@ -98,7 +99,7 @@ export default function Home() {
           <div>
             <span className="cita__marca">“</span>
             <p className="quote">Donde fuera venerada la imagen surgiría una gran ciudad.</p>
-            <span className="cita__fuente">Según la tradición, palabras de santa Teresa de Jesús</span>
+            <span className="cita__fuente">Según la tradición, palabras de santa Teresa de Ávila</span>
             <p className="cita__nota">
               En la procesión, una piedra tallada lo recuerda: «A los pies de esta imagen se edificará una gran
               ciudad».
@@ -115,7 +116,7 @@ export default function Home() {
               titulo="Planea tu visita"
               texto="El santuario se encuentra en la cima del cerro del Carmen, en el Centro Histórico. Se sube por el atrio empedrado, junto al torreón y las cuatro capillas de la plazuela."
             />
-            <p className="note">{aj.horario_visita} · Entrada gratuita · Parqueo gratuito</p>
+            <p className="note">{sinViuda(aj.horario_visita)} · Entrada gratuita · Parqueo gratuito</p>
             <div className="hero__ctas">
               <Link to="/ubicacion" className="btn btn--dark">
                 Cómo llegar

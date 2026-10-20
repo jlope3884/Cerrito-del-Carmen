@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { supabase, crmActivo } from '../lib/supabase.js'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { supabase } from '../lib/supabase.js'
+import { hayCRM } from '../lib/config.js'
+import { mensajeError } from '../lib/errores.js'
 import Login from './Login.jsx'
 import Layout from './Layout.jsx'
 import Eventos from './Eventos.jsx'
@@ -13,17 +15,73 @@ import './admin.css'
 function Pantalla({ titulo, children }) {
   return (
     <div className="adm-centro">
-      <div className="adm-caja">
+      <main className="adm-caja">
         <h1>{titulo}</h1>
         {children}
-      </div>
+      </main>
     </div>
   )
 }
 
+/** Se muestra al abrir el enlace de «¿Olvidaste tu contraseña?» que llega por correo. */
+function NuevaClave({ alTerminar }) {
+  const [estado, setEstado] = useState({ guardando: false, error: '', ok: '' })
+
+  async function enviar(e) {
+    e.preventDefault()
+    const f = new FormData(e.currentTarget)
+    const clave = String(f.get('clave') || '')
+    if (clave.length < 8) return setEstado({ guardando: false, error: 'La contraseña debe tener al menos 8 caracteres.', ok: '' })
+    if (clave !== f.get('clave2')) return setEstado({ guardando: false, error: 'Las contraseñas no coinciden.', ok: '' })
+    setEstado({ guardando: true, error: '', ok: '' })
+    const { error } = await supabase.auth.updateUser({ password: clave })
+    if (error) {
+      return setEstado({
+        guardando: false,
+        error: mensajeError(error, 'No se pudo cambiar la contraseña. Pide un enlace nuevo e inténtalo otra vez.'),
+        ok: '',
+      })
+    }
+    setEstado({ guardando: false, error: '', ok: 'Contraseña actualizada.' })
+    setTimeout(alTerminar, 1200)
+  }
+
+  return (
+    <Pantalla titulo="Nueva contraseña">
+      <form className="adm-login" onSubmit={enviar} noValidate>
+        <p>Escribe la contraseña nueva para tu cuenta (mínimo 8 caracteres).</p>
+        <label className="adm-campo">
+          <span>Contraseña nueva</span>
+          <input type="password" name="clave" required aria-required="true" minLength={8} autoComplete="new-password" />
+        </label>
+        <label className="adm-campo">
+          <span>Repite la contraseña</span>
+          <input type="password" name="clave2" required aria-required="true" minLength={8} autoComplete="new-password" />
+        </label>
+        {estado.error && (
+          <p className="adm-error" role="alert">
+            {estado.error}
+          </p>
+        )}
+        {estado.ok && (
+          <p className="adm-ok" role="status">
+            {estado.ok}
+          </p>
+        )}
+        <button className="adm-btn adm-btn--primario" disabled={estado.guardando || Boolean(estado.ok)}>
+          {estado.guardando ? 'Guardando…' : 'Guardar contraseña'}
+        </button>
+      </form>
+    </Pantalla>
+  )
+}
+
 export default function AdminApp() {
+  const location = useLocation()
   const [sesion, setSesion] = useState(undefined) // undefined = cargando
-  const [esAdmin, setEsAdmin] = useState(undefined)
+  const [esAdmin, setEsAdmin] = useState(undefined) // undefined = verificando · 'error' = no se pudo verificar
+  const [recuperando, setRecuperando] = useState(false)
+  const [intento, setIntento] = useState(0)
 
   useEffect(() => {
     document.title = 'Panel · Cerrito del Carmen'
@@ -39,21 +97,31 @@ export default function AdminApp() {
   useEffect(() => {
     if (!supabase) return
     supabase.auth.getSession().then(({ data }) => setSesion(data.session))
-    const { data } = supabase.auth.onAuthStateChange((_e, s) => setSesion(s))
+    const { data } = supabase.auth.onAuthStateChange((evento, s) => {
+      if (evento === 'PASSWORD_RECOVERY') setRecuperando(true)
+      setSesion(s)
+    })
     return () => data.subscription.unsubscribe()
   }, [])
 
+  const usuarioId = sesion?.user?.id
   useEffect(() => {
-    if (!sesion) return setEsAdmin(undefined)
+    if (!usuarioId) return setEsAdmin(undefined)
+    let vivo = true
+    setEsAdmin(undefined)
     supabase
       .from('admins')
       .select('user_id')
-      .eq('user_id', sesion.user.id)
+      .eq('user_id', usuarioId)
       .maybeSingle()
-      .then(({ data, error }) => setEsAdmin(!error && Boolean(data)))
-  }, [sesion])
+      .then(({ data, error }) => vivo && setEsAdmin(error ? 'error' : Boolean(data)))
+      .catch(() => vivo && setEsAdmin('error'))
+    return () => {
+      vivo = false
+    }
+  }, [usuarioId, intento])
 
-  if (!crmActivo) {
+  if (!hayCRM) {
     return (
       <Pantalla titulo="Falta configurar el CRM">
         <p>
@@ -64,8 +132,22 @@ export default function AdminApp() {
     )
   }
   if (sesion === undefined) return <Pantalla titulo="Cargando…" />
+  if (recuperando && sesion) return <NuevaClave alTerminar={() => setRecuperando(false)} />
   if (!sesion) return <Login />
   if (esAdmin === undefined) return <Pantalla titulo="Verificando acceso…" />
+  if (esAdmin === 'error') {
+    return (
+      <Pantalla titulo="No se pudo verificar el acceso">
+        <p role="alert">Revisa tu conexión a internet e inténtalo de nuevo.</p>
+        <button className="adm-btn adm-btn--primario" onClick={() => setIntento((n) => n + 1)}>
+          Reintentar
+        </button>
+        <button className="adm-btn" onClick={() => supabase.auth.signOut()}>
+          Cerrar sesión
+        </button>
+      </Pantalla>
+    )
+  }
   if (!esAdmin) {
     return (
       <Pantalla titulo="Sin acceso">
@@ -82,8 +164,9 @@ export default function AdminApp() {
       <Route element={<Layout usuario={sesion.user} />}>
         <Route index element={<Navigate to="eventos" replace />} />
         <Route path="eventos" element={<Eventos />} />
-        <Route path="eventos/nuevo" element={<EventoForm />} />
-        <Route path="eventos/:id" element={<EventoForm />} />
+        {/* key: al pasar de un evento a otro (o a «Duplicar») el formulario empieza de cero */}
+        <Route path="eventos/nuevo" element={<EventoForm key={location.pathname + location.search} />} />
+        <Route path="eventos/:id" element={<EventoForm key={location.pathname + location.search} />} />
         <Route path="tipos" element={<Tipos />} />
         <Route path="solicitudes" element={<Solicitudes />} />
         <Route path="ajustes" element={<Ajustes />} />

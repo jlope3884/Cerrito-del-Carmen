@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import { fechaCorta, hora } from '../lib/fechas.js'
+import { mensajeError } from '../lib/errores.js'
 
 const FILTROS = ['Próximos', 'Pasados', 'Todos']
 
@@ -17,7 +18,7 @@ export default function Eventos() {
       .from('eventos')
       .select('*, tipo:tipos_evento(nombre, color)')
       .order('inicio', { ascending: true })
-    if (error) setError('No se pudieron cargar los eventos.')
+    if (error) setError(mensajeError(error, 'No se pudieron cargar los eventos.'))
     else setEventos(data)
   }
   useEffect(() => {
@@ -38,8 +39,9 @@ export default function Eventos() {
 
   async function borrar(ev) {
     if (!window.confirm(`¿Borrar el evento «${ev.titulo}»? Esta acción no se puede deshacer.`)) return
+    setError('')
     const { error } = await supabase.from('eventos').delete().eq('id', ev.id)
-    if (error) return setError('No se pudo borrar el evento.')
+    if (error) return setError(mensajeError(error, 'No se pudo borrar el evento.'))
     const compartida = eventos.some((x) => x.id !== ev.id && x.imagen_url === ev.imagen_url)
     if (ev.imagen_url && !compartida) borrarImagen(ev.imagen_url)
     setEventos((l) => l.filter((x) => x.id !== ev.id))
@@ -47,10 +49,11 @@ export default function Eventos() {
 
   async function alternar(ev, campo) {
     const valor = !ev[campo]
+    setError('')
     setEventos((l) => l.map((x) => (x.id === ev.id ? { ...x, [campo]: valor } : x)))
     const { error } = await supabase.from('eventos').update({ [campo]: valor }).eq('id', ev.id)
     if (error) {
-      setError('No se pudo guardar el cambio.')
+      setError(mensajeError(error, 'No se pudo guardar el cambio.'))
       cargar()
     }
   }
@@ -68,17 +71,28 @@ export default function Eventos() {
       </header>
 
       <div className="adm-barra">
-        <div className="adm-pestanas" role="tablist">
+        <div className="adm-pestanas" role="group" aria-label="Filtrar eventos">
           {FILTROS.map((f) => (
-            <button key={f} role="tab" aria-selected={filtro === f} className={filtro === f ? 'is-on' : ''} onClick={() => setFiltro(f)}>
+            <button key={f} type="button" aria-pressed={filtro === f} className={filtro === f ? 'is-on' : ''} onClick={() => setFiltro(f)}>
               {f}
             </button>
           ))}
         </div>
-        <input className="adm-buscar" type="search" placeholder="Buscar…" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
+        <input
+          className="adm-buscar"
+          type="search"
+          placeholder="Buscar…"
+          aria-label="Buscar eventos por título, lugar o tipo"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+        />
       </div>
 
-      {error && <p className="adm-error">{error}</p>}
+      {error && (
+        <p className="adm-error" role="alert">
+          {error}
+        </p>
+      )}
       {!eventos && !error && <p className="adm-vacio">Cargando…</p>}
       {eventos && visibles.length === 0 && (
         <div className="adm-vacio">
@@ -98,23 +112,25 @@ export default function Eventos() {
               <th>Tipo</th>
               <th>En el sitio</th>
               <th>Destacado</th>
-              <th aria-label="Acciones" />
+              <th>
+                <span className="visually-hidden">Acciones</span>
+              </th>
             </tr>
           </thead>
           <tbody>
             {visibles.map((ev) => (
               <tr key={ev.id}>
-                <td className="adm-nowrap">
+                <td className="adm-nowrap" data-label="Fecha">
                   {fechaCorta(ev.inicio)}
                   {!ev.todo_el_dia && <small>{hora(ev.inicio)}</small>}
                 </td>
-                <td>
+                <td data-label="Evento">
                   <button className="adm-enlace adm-enlace--fuerte" onClick={() => navegar(`/admin/eventos/${ev.id}`)}>
                     {ev.titulo}
                   </button>
                   {ev.lugar && <small>{ev.lugar}</small>}
                 </td>
-                <td>
+                <td data-label="Tipo">
                   {ev.tipo ? (
                     <span className="adm-chip" style={{ '--c': ev.tipo.color }}>
                       {ev.tipo.nombre}
@@ -123,26 +139,36 @@ export default function Eventos() {
                     <span className="adm-tenue">Sin tipo</span>
                   )}
                 </td>
-                <td>
-                  <label className="adm-switch" title={ev.publicado ? 'Publicado' : 'Borrador'}>
-                    <input type="checkbox" checked={ev.publicado} onChange={() => alternar(ev, 'publicado')} />
-                    <span>{ev.publicado ? 'Publicado' : 'Borrador'}</span>
+                <td data-label="En el sitio">
+                  <label className="adm-switch">
+                    <input
+                      type="checkbox"
+                      checked={ev.publicado}
+                      onChange={() => alternar(ev, 'publicado')}
+                      aria-label={`Publicar «${ev.titulo}» en el sitio`}
+                    />
+                    <span aria-hidden="true">{ev.publicado ? 'Publicado' : 'Borrador'}</span>
                   </label>
                 </td>
-                <td>
+                <td data-label="Destacado">
                   <label className="adm-switch">
-                    <input type="checkbox" checked={ev.destacado} onChange={() => alternar(ev, 'destacado')} />
-                    <span>{ev.destacado ? 'En Inicio' : 'No'}</span>
+                    <input
+                      type="checkbox"
+                      checked={ev.destacado}
+                      onChange={() => alternar(ev, 'destacado')}
+                      aria-label={`Destacar «${ev.titulo}» en Inicio`}
+                    />
+                    <span aria-hidden="true">{ev.destacado ? 'En Inicio' : 'No destacado'}</span>
                   </label>
                 </td>
                 <td className="adm-acciones">
-                  <Link to={`/admin/eventos/${ev.id}`} className="adm-btn adm-btn--chico">
+                  <Link to={`/admin/eventos/${ev.id}`} className="adm-btn adm-btn--chico" aria-label={`Editar «${ev.titulo}»`}>
                     Editar
                   </Link>
-                  <Link to={`/admin/eventos/nuevo?copiar=${ev.id}`} className="adm-btn adm-btn--chico">
+                  <Link to={`/admin/eventos/nuevo?copiar=${ev.id}`} className="adm-btn adm-btn--chico" aria-label={`Duplicar «${ev.titulo}»`}>
                     Duplicar
                   </Link>
-                  <button className="adm-btn adm-btn--chico adm-btn--peligro" onClick={() => borrar(ev)}>
+                  <button className="adm-btn adm-btn--chico adm-btn--peligro" onClick={() => borrar(ev)} aria-label={`Borrar «${ev.titulo}»`}>
                     Borrar
                   </button>
                 </td>

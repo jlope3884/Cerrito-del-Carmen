@@ -16,12 +16,16 @@ horarios de misa, párroco). Si Supabase no está configurado o falla, el sitio 
 1. Entrar a <https://supabase.com> con el **Gmail de la parroquia** y crear un proyecto
    (región más cercana: *East US*; guardar la contraseña de la base de datos en un lugar seguro).
 2. **SQL Editor → New query** → pegar todo `supabase/schema.sql` → **Run**.
-   Crea las tablas, los permisos, la carpeta de imágenes `eventos` y los datos iniciales.
+   Crea las tablas, los permisos, la carpeta de imágenes `eventos` (máx. 5 MB; solo JPG, PNG o WebP) y los
+   datos iniciales. Se puede volver a correr cuando el archivo cambie: no borra datos.
 3. **Authentication → Sign In / Providers → Email**: desactivar **«Allow new users to sign up»**.
    Así nadie puede crearse una cuenta por su cuenta.
-4. **Authentication → Users → Add user → Create new user**: correo y contraseña de quien va a usar el panel
+4. **Authentication → URL Configuration**: *Site URL* = `https://<dominio>` y en *Redirect URLs* agregar
+   `https://<dominio>/admin` (con el dominio real del sitio). Sin esto, el enlace de «¿Olvidaste tu contraseña?»
+   que llega por correo no regresa al panel para escribir la contraseña nueva.
+5. **Authentication → Users → Add user → Create new user**: correo y contraseña de quien va a usar el panel
    (marcar *Auto Confirm User*).
-5. Darle permiso de administrador. En **SQL Editor**:
+6. Darle permiso de administrador. En **SQL Editor**:
 
    ```sql
    insert into public.admins (user_id, nombre)
@@ -48,10 +52,14 @@ En **Project Settings → API** copiar *Project URL* y la clave **anon public**.
 ## Seguridad y mantenimiento
 
 - El público solo puede **leer** eventos publicados, tipos, ajustes y horarios, y **crear** solicitudes.
-  No puede leer solicitudes ni modificar nada. Un usuario que inicia sesión pero no está en `admins` no ve nada privado.
+  No puede leer solicitudes ni modificar nada. Las solicitudes nuevas siempre entran como «Nueva», sin notas y con
+  la hora del servidor; si llegan más de 20 en 10 minutos (envío masivo), las siguientes se rechazan y el sitio
+  pide intentarlo más tarde. Un usuario que inicia sesión pero no está en `admins` no ve nada privado.
+- **Olvido de contraseña**: en `/admin`, «¿Olvidaste tu contraseña?» envía un enlace; al abrirlo, el panel pide la
+  contraseña nueva (mínimo 8 caracteres). Requiere el paso 4.
 - **Copias**: el plan gratis no descarga respaldos. Exportar las solicitudes a CSV una vez al mes
   y guardarlas en el Drive de la parroquia.
 - **Pausa por inactividad**: Supabase pausa los proyectos gratis después de 7 días sin uso. El sitio consulta la
   base en cada visita, lo que cuenta como uso. Si alguna vez se pausa, entrar a supabase.com y pulsar *Restore*;
   mientras tanto el sitio sigue funcionando con los datos de `site.js`.
-- **Agregar otra persona al panel**: repetir los pasos 4 y 5. **Quitarla**: borrar el usuario en *Authentication → Users*.
+- **Agregar otra persona al panel**: repetir los pasos 5 y 6. **Quitarla**: borrar el usuario en *Authentication → Users*.

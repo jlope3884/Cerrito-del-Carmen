@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
-import { site, capitulos, laVirgen, actualidad, fotosVirgen, documentosReconstruccion } from '../data/site.js'
+import { capitulos, laVirgen, actualidad, fotosVirgen, documentosReconstruccion } from '../data/site.js'
 import Documentos from '../components/Documentos.jsx'
-import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { PageHero, TituloSeccion, Foto, Siguiente } from '../components/Bits.jsx'
 import { useAjustes } from '../lib/datos.js'
+import { tratamiento } from '../lib/texto.js'
 import './pages.css'
 
 function Capitulo({ c, conFoto }) {
@@ -32,9 +32,9 @@ export default function Historia() {
       <section className="section section--tight">
         <div className="shell">
           <div className="grid grid--3">
-            <Foto src="/img/torreon-puerta-noche.jpg" alt="El torreón visto a través de la puerta tallada del templo, de noche" tam="foto--lg" pie="El torreón desde la puerta" />
-            <Foto src="/img/costado-cruz-noche.jpg" alt="Costado del templo y la cruz al anochecer" tam="foto--lg" pie="El atrio al anochecer" />
-            <Foto src="/img/silueta-torres.jpg" alt="Silueta de las torres y la cruz al atardecer" tam="foto--lg" pie="Las torres al atardecer" />
+            <Foto src="/img/torreon-puerta-noche.jpg" alt="El torreón visto a través de la puerta tallada del templo, de noche" tam="foto--lg" pie="El torreón desde la puerta" prioridad />
+            <Foto src="/img/costado-cruz-noche.jpg" alt="Costado del templo y la cruz al anochecer" tam="foto--lg" pie="El atrio al anochecer" prioridad />
+            <Foto src="/img/silueta-torres.jpg" alt="Silueta de las torres y la cruz al atardecer" tam="foto--lg" pie="Las torres al atardecer" prioridad />
           </div>
         </div>
       </section>
@@ -46,8 +46,8 @@ export default function Historia() {
             titulo="El pasado"
             texto="Del valle de las Vacas a la ermita que vio nacer la Nueva Guatemala de la Asunción."
           />
-          {capitulos.map((c, i) => (
-            <Capitulo key={c.num} c={c} conFoto={!!c.img || i % 2 === 1} />
+          {capitulos.map((c) => (
+            <Capitulo key={c.num} c={c} conFoto={!!c.img} />
           ))}
         </div>
       </section>
@@ -57,7 +57,7 @@ export default function Historia() {
           <TituloSeccion
             eyebrow="Archivo · La reconstrucción"
             titulo="La reconstrucción en documentos"
-            texto="Fotografías, croquis, planos y recortes que cuentan cómo el Cerrito se levantó después de los terremotos. Haz clic en cada documento para verlo completo."
+            texto="Fotografías, croquis, planos y recortes que cuentan cómo el Cerrito se levantó después de los terremotos. Toca o haz clic en cada documento para verlo completo."
           />
           <Documentos items={documentosReconstruccion} />
         </div>
@@ -133,22 +133,14 @@ export default function Historia() {
 
           <p className="quote" style={{ color: 'var(--muted)', marginTop: '36px', fontSize: '1.3rem' }}>
             El santuario está al cuidado de los frailes franciscanos desde 1959 y hoy lo atiende el{' '}
-            {aj.parroco.toLowerCase()}.
+            {tratamiento(aj.parroco)}.
           </p>
         </div>
       </section>
 
-      <section className="section section--tight">
-        <div className="shell stack stack--md">
-          <p className="eyebrow">Siguiente</p>
-          <h2>La arquitectura de la ermita</h2>
-          <div>
-            <Link to="/arquitectura" className="btn btn--dark">
-              Ir a arquitectura →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Siguiente titulo="La arquitectura de la ermita" to="/arquitectura">
+        Ir a arquitectura
+      </Siguiente>
     </>
   )
 }

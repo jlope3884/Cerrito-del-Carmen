@@ -10,7 +10,7 @@ const columnas = [
       { label: 'Historia', to: '/historia' },
       { label: 'Arquitectura', to: '/arquitectura' },
       { label: 'Galería', to: '/galeria' },
-      { label: 'Fototeca histórica', to: '/galeria#fototeca' },
+      { label: 'Archivo histórico', to: '/galeria#fototeca' },
     ],
   },
   {
@@ -26,6 +26,7 @@ const columnas = [
     titulo: 'Agenda y contacto',
     enlaces: [
       { label: 'Celebraciones', to: '/celebraciones' },
+      { label: 'Agenda', to: '/celebraciones#agenda' },
       { label: 'Sacramentos', to: '/celebraciones#sacramentos' },
       { label: 'Contacto', to: '/contacto' },
       { label: 'Preguntas frecuentes', to: '/contacto#faq' },
@@ -73,30 +74,39 @@ export default function Footer() {
           <p className="footer__patrimonio">Patrimonio Cultural de la Nación</p>
         </div>
 
-        {columnas.map((col) => (
-          <div key={col.titulo} className="footer__col">
-            <h4 className="footer__coltitle">{col.titulo}</h4>
-            <ul>
-              {col.enlaces.map((e) => (
-                <li key={e.label}>
-                  <Link to={e.to}>{e.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <nav className="footer__nav" aria-label="Pie de página">
+          {columnas.map((col) => (
+            <div key={col.titulo} className="footer__col">
+              <h2 className="footer__coltitle">{col.titulo}</h2>
+              <ul>
+                {col.enlaces.map((e) => (
+                  <li key={e.label}>
+                    <Link to={e.to}>{e.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
 
         {redesActivas.length > 0 && (
-        <div className="footer__col">
-          <h4 className="footer__coltitle">Síguenos</h4>
-          <div className="social">
-            {redesActivas.map((r) => (
-              <a key={r.nombre} href={r.url} className="social__link" aria-label={r.nombre} target="_blank" rel="noreferrer">
-                <IconoRed tipo={r.icono} />
-              </a>
-            ))}
+          <div className="footer__col footer__redes">
+            <h2 className="footer__coltitle">Síguenos</h2>
+            <div className="social">
+              {redesActivas.map((r) => (
+                <a
+                  key={r.nombre}
+                  href={r.url}
+                  className="social__link"
+                  aria-label={`${r.nombre} (se abre en una pestaña nueva)`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <IconoRed tipo={r.icono} />
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
         )}
       </div>
 

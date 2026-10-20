@@ -1,7 +1,74 @@
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { site, cuentas, destinoAporte, agradecimientos, confirmado } from '../data/site.js'
 import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
 import { useAjustes } from '../lib/datos.js'
+import { telHref } from '../lib/texto.js'
 import './pages.css'
+
+/** Copia al portapapeles; si el navegador no lo permite, con el método antiguo. */
+async function copiarTexto(texto) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(texto)
+      return true
+    } catch {
+      /* se intenta abajo */
+    }
+  }
+  try {
+    const area = document.createElement('textarea')
+    area.value = texto
+    area.setAttribute('readonly', '')
+    area.style.position = 'fixed'
+    area.style.opacity = '0'
+    document.body.appendChild(area)
+    area.select()
+    const ok = document.execCommand('copy')
+    area.remove()
+    return ok
+  } catch {
+    return false
+  }
+}
+
+/** Botón «Copiar» junto a un número de cuenta (copia sin espacios). */
+function Copiar({ valor, etiqueta }) {
+  const [estado, setEstado] = useState('') // '' | copiado | error
+  const reloj = useRef(null)
+  useEffect(() => () => clearTimeout(reloj.current), [])
+
+  async function copiar() {
+    const ok = await copiarTexto(String(valor).replace(/\s/g, ''))
+    setEstado(ok ? 'copiado' : 'error')
+    clearTimeout(reloj.current)
+    reloj.current = setTimeout(() => setEstado(''), 2000)
+  }
+
+  return (
+    <>
+      <button type="button" className="chip cuenta__copiar" onClick={copiar} aria-label={`Copiar ${etiqueta}`}>
+        {estado === 'copiado' ? 'Copiado' : 'Copiar'}
+      </button>
+      <span className="visually-hidden" aria-live="polite">
+        {estado === 'copiado' ? `${etiqueta} copiado` : estado === 'error' ? 'No se pudo copiar; selecciona el número a mano.' : ''}
+      </span>
+    </>
+  )
+}
+
+/** IBAN en pares de bloques que no se parten al cambiar de línea. */
+function Iban({ valor }) {
+  const bloques = String(valor).trim().split(/\s+/)
+  const pares = []
+  for (let i = 0; i < bloques.length; i += 2) pares.push(bloques.slice(i, i + 2).join(' '))
+  // El espacio entre pares va fuera del <span> sin cortes: es ahí donde puede cambiar de línea.
+  return pares.map((par, i) => (
+    <Fragment key={i}>
+      {i > 0 && ' '}
+      <span style={{ whiteSpace: 'nowrap' }}>{par}</span>
+    </Fragment>
+  ))
+}
 
 export default function Donar() {
   const aj = useAjustes()
@@ -17,9 +84,9 @@ export default function Donar() {
         <div className="shell">
           <p className="eyebrow" style={{ marginBottom: '20px' }}>Lo que tu aporte conserva</p>
           <div className="grid grid--3">
-            <Foto src="/img/retablo-cortinas.jpg" alt="El retablo mayor con cortinas amarillo y blanco" tam="foto--lg" pie="El retablo mayor" />
-            <Foto src="/img/campana.jpg" alt="Campana del campanario sobre la ciudad" tam="foto--lg" pie="Las campanas" />
-            <Foto src="/img/torreon-dia.jpg" alt="El torreón sobre la plaza empedrada" tam="foto--lg" pie="El torreón" />
+            <Foto src="/img/retablo-cortinas.jpg" alt="El retablo mayor con cortinas amarillas y blancas" tam="foto--lg" pie="El retablo mayor" prioridad />
+            <Foto src="/img/campana.jpg" alt="Campana del campanario sobre la ciudad" tam="foto--lg" pie="Las campanas" prioridad />
+            <Foto src="/img/torreon-dia.jpg" alt="El torreón sobre la plaza empedrada" tam="foto--lg" pie="El torreón" prioridad />
           </div>
         </div>
       </section>
@@ -37,8 +104,11 @@ export default function Donar() {
               <hr className="divider" style={{ margin: '20px 0 24px' }} />
               <p>
                 Pide los datos de la cuenta del santuario al despacho parroquial: llámanos al{' '}
-                <a href={`tel:+502${aj.telefono.replace(/\s/g, '')}`} style={{ color: 'var(--gold-deep)' }}>{aj.telefono}</a> o escríbenos a{' '}
-                <a href={`mailto:${site.correoDonaciones}`} style={{ color: 'var(--gold-deep)' }}>
+                <a href={telHref(aj.telefono)} className="enlace">
+                  {aj.telefono}
+                </a>{' '}
+                o escríbenos a{' '}
+                <a href={`mailto:${site.correoDonaciones}`} className="enlace">
                   {site.correoDonaciones}
                 </a>
                 .
@@ -56,12 +126,20 @@ export default function Donar() {
                 </div>
                 <div className="cuenta__fila">
                   <span className="label">Número de cuenta</span>
-                  <p className="cuenta__numero">{c.numero}</p>
+                  <div className="cuenta__valor">
+                    <p className="cuenta__numero">{c.numero}</p>
+                    <Copiar valor={c.numero} etiqueta="número de cuenta" />
+                  </div>
                 </div>
                 {c.iban && (
                   <div className="cuenta__fila">
                     <span className="label">IBAN (transferencias desde el extranjero)</span>
-                    <p style={{ color: 'var(--ink)', letterSpacing: '0.5px' }}>{c.iban}</p>
+                    <div className="cuenta__valor">
+                      <p className="cuenta__iban">
+                        <Iban valor={c.iban} />
+                      </p>
+                      <Copiar valor={c.iban} etiqueta="IBAN" />
+                    </div>
                   </div>
                 )}
                 <div className="cuenta__fila">

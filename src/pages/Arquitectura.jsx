@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom'
 import { arquitectura } from '../data/site.js'
-import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { PageHero, TituloSeccion, Foto, Siguiente } from '../components/Bits.jsx'
 import './pages.css'
 
 export default function Arquitectura() {
@@ -15,8 +14,8 @@ export default function Arquitectura() {
       <section className="section section--tight">
         <div className="shell">
           <div className="grid grid--2">
-            <Foto src="/img/fachada.jpg" alt="Fachada frontal de la ermita con arreglos florales" tam="foto--xl" pie="La fachada" />
-            <Foto src="/img/torreon-fachada-atardecer.jpg" alt="El torreón y la fachada al atardecer" tam="foto--xl" pie="Torreón y fachada" />
+            <Foto src="/img/fachada.jpg" alt="Fachada frontal de la ermita con arreglos florales" tam="foto--xl" pie="La fachada" prioridad />
+            <Foto src="/img/torreon-fachada-atardecer.jpg" alt="El torreón y la fachada al atardecer" tam="foto--xl" pie="Torreón y fachada" prioridad />
           </div>
         </div>
       </section>
@@ -60,17 +59,9 @@ export default function Arquitectura() {
         </div>
       </section>
 
-      <section className="section section--tight">
-        <div className="shell stack stack--md">
-          <p className="eyebrow">Siguiente</p>
-          <h2>La galería del Cerrito</h2>
-          <div>
-            <Link to="/galeria" className="btn btn--dark">
-              Ir a galería →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Siguiente titulo="La galería del Cerrito" to="/galeria">
+        Ir a galería
+      </Siguiente>
     </>
   )
 }

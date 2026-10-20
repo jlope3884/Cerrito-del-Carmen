@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase.js'
-import { fechaCorta, hora } from '../lib/fechas.js'
+import { deISO, fechaCorta, hora } from '../lib/fechas.js'
+import { mensajeError } from '../lib/errores.js'
 
 export const ESTADOS = {
   nueva: 'Nueva',
@@ -9,16 +10,43 @@ export const ESTADOS = {
   cerrada: 'Cerrada',
 }
 
-function exportarCSV(filas) {
-  const cols = ['creado_en', 'tipo', 'nombre', 'telefono', 'correo', 'fecha_preferida', 'estado', 'mensaje', 'notas_internas']
-  const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
-  const csv = [cols.join(','), ...filas.map((f) => cols.map((c) => esc(f[c])).join(','))].join('\n')
-  const a = document.createElement('a')
-  a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }))
-  a.download = `solicitudes-${new Date().toISOString().slice(0, 10)}.csv`
-  a.click()
-  URL.revokeObjectURL(a.href)
+const COLUMNAS_CSV = [
+  ['Fecha de envío', (s) => (s.creado_en ? `${deISO(s.creado_en).fecha} ${deISO(s.creado_en).hora}` : '')],
+  ['Celebración', (s) => s.tipo],
+  ['Nombre', (s) => s.nombre],
+  ['Teléfono', (s) => s.telefono],
+  ['Correo', (s) => s.correo],
+  ['Fecha preferida', (s) => s.fecha_preferida],
+  ['Estado', (s) => ESTADOS[s.estado] || s.estado],
+  ['Mensaje', (s) => s.mensaje],
+  ['Notas internas', (s) => s.notas_internas],
+]
+
+/** Celda de CSV. Lo que empieza con = + - @ se antepone con ' para que Excel no lo ejecute como fórmula. */
+function celda(v) {
+  let s = String(v ?? '')
+  if (/^[=+\-@\t\r]/.test(s)) s = "'" + s
+  return `"${s.replace(/"/g, '""')}"`
 }
+
+/** Descarga todas las solicitudes en un CSV que Excel abre con acentos (BOM UTF-8). Hora de Guatemala. */
+function exportarCSV(filas) {
+  const csv = [
+    COLUMNAS_CSV.map(([titulo]) => celda(titulo)).join(','),
+    ...filas.map((f) => COLUMNAS_CSV.map(([, valor]) => celda(valor(f))).join(',')),
+  ].join('\r\n')
+  const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }))
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `solicitudes-${deISO(new Date().toISOString()).fecha}.csv`
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
+}
+
+/** Avisa al menú lateral que vuelva a contar las solicitudes nuevas. */
+const avisarCambio = () => window.dispatchEvent(new Event('solicitudes-cambiaron'))
 
 export default function Solicitudes() {
   const [lista, setLista] = useState(null)
@@ -28,32 +56,44 @@ export default function Solicitudes() {
 
   async function cargar() {
     const { data, error } = await supabase.from('solicitudes').select('*').order('creado_en', { ascending: false })
-    if (error) setMensaje({ error: 'No se pudieron cargar las solicitudes.', ok: '' })
+    if (error) setMensaje({ error: mensajeError(error, 'No se pudieron cargar las solicitudes.'), ok: '' })
     else setLista(data)
   }
   useEffect(() => {
     cargar()
   }, [])
 
-  const visibles = (lista || []).filter((s) =>
-    filtro === 'activas' ? s.estado === 'nueva' || s.estado === 'en_proceso' : filtro === 'todas' ? true : s.estado === filtro,
-  )
+  // Se filtra por el estado guardado: así una solicitud no desaparece al cambiar el estado antes de guardar
+  const visibles = (lista || []).filter((s) => {
+    const estado = s.estadoGuardado ?? s.estado
+    return filtro === 'activas' ? estado === 'nueva' || estado === 'en_proceso' : filtro === 'todas' ? true : estado === filtro
+  })
 
   async function guardar(s) {
-    const { error } = await supabase.from('solicitudes').update({ estado: s.estado, notas_internas: s.notas_internas }).eq('id', s.id)
-    if (error) return setMensaje({ error: 'No se pudo guardar.', ok: '' })
+    setMensaje({ error: '', ok: '' })
+    const { data, error } = await supabase
+      .from('solicitudes')
+      .update({ estado: s.estado, notas_internas: s.notas_internas })
+      .eq('id', s.id)
+      .select('id')
+    if (error) return setMensaje({ error: mensajeError(error, 'No se pudo guardar.'), ok: '' })
+    if (data.length === 0) return setMensaje({ error: 'Esta solicitud ya no existe; quizá alguien la borró.', ok: '' })
     setMensaje({ error: '', ok: 'Solicitud actualizada.' })
-    setLista((l) => l.map((x) => (x.id === s.id ? { ...s, sucio: false } : x)))
+    setLista((l) => l.map((x) => (x.id === s.id ? { ...s, sucio: false, estadoGuardado: undefined } : x)))
+    avisarCambio()
   }
 
   async function borrar(s) {
     if (!window.confirm(`¿Borrar la solicitud de ${s.nombre}? Esta acción no se puede deshacer.`)) return
+    setMensaje({ error: '', ok: '' })
     const { error } = await supabase.from('solicitudes').delete().eq('id', s.id)
-    if (error) return setMensaje({ error: 'No se pudo borrar.', ok: '' })
+    if (error) return setMensaje({ error: mensajeError(error, 'No se pudo borrar.'), ok: '' })
     setLista((l) => l.filter((x) => x.id !== s.id))
+    avisarCambio()
   }
 
-  const editar = (id, campo, valor) => setLista((l) => l.map((x) => (x.id === id ? { ...x, [campo]: valor, sucio: true } : x)))
+  const editar = (id, campo, valor) =>
+    setLista((l) => l.map((x) => (x.id === id ? { ...x, estadoGuardado: x.estadoGuardado ?? x.estado, [campo]: valor, sucio: true } : x)))
 
   return (
     <section className="adm-pagina">
@@ -63,22 +103,30 @@ export default function Solicitudes() {
           <p>Lo que las personas piden desde la página de Celebraciones del sitio.</p>
         </div>
         <button className="adm-btn" onClick={() => exportarCSV(lista || [])} disabled={!lista?.length}>
-          Exportar a Excel (CSV)
+          Exportar todas (CSV)
         </button>
       </header>
 
       <div className="adm-barra">
-        <div className="adm-pestanas">
+        <div className="adm-pestanas" role="group" aria-label="Filtrar solicitudes por estado">
           {[['activas', 'Por atender'], ...Object.entries(ESTADOS), ['todas', 'Todas']].map(([k, v]) => (
-            <button key={k} className={filtro === k ? 'is-on' : ''} onClick={() => setFiltro(k)}>
+            <button key={k} type="button" className={filtro === k ? 'is-on' : ''} aria-pressed={filtro === k} onClick={() => setFiltro(k)}>
               {v}
             </button>
           ))}
         </div>
       </div>
 
-      {mensaje.error && <p className="adm-error">{mensaje.error}</p>}
-      {mensaje.ok && <p className="adm-ok">{mensaje.ok}</p>}
+      {mensaje.error && (
+        <p className="adm-error" role="alert">
+          {mensaje.error}
+        </p>
+      )}
+      {mensaje.ok && (
+        <p className="adm-ok" role="status">
+          {mensaje.ok}
+        </p>
+      )}
       {!lista && !mensaje.error && <p className="adm-vacio">Cargando…</p>}
       {lista && visibles.length === 0 && <p className="adm-vacio">No hay solicitudes aquí.</p>}
 
@@ -141,7 +189,7 @@ export default function Solicitudes() {
                   </div>
                   <label className="adm-campo">
                     <span>Notas internas (no las ve la persona)</span>
-                    <textarea rows={3} value={s.notas_internas} onChange={(e) => editar(s.id, 'notas_internas', e.target.value)} />
+                    <textarea rows={3} maxLength={3000} value={s.notas_internas} onChange={(e) => editar(s.id, 'notas_internas', e.target.value)} />
                   </label>
                   <div className="adm-botones">
                     <button className="adm-btn adm-btn--primario" disabled={!s.sucio} onClick={() => guardar(s)}>

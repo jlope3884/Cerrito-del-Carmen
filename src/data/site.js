@@ -88,7 +88,7 @@ export const destinoAporte = [
 ]
 
 export const lineaDeTiempo = [
-  { año: 'S. XVII', hito: 'Juan Corz funda la primera ermita en el cerro' },
+  { año: 'Siglo XVII', hito: 'Juan Corz funda la primera ermita en el cerro' },
   { año: '1620', hito: 'Se concluye el nuevo templo de cal y canto' },
   { año: '1730', hito: 'Reconstrucción de Juan José Morales' },
   { año: '1776', hito: 'Se funda la Nueva Guatemala de la Asunción' },
@@ -108,7 +108,7 @@ export const capitulos = [
   },
   {
     num: '02',
-    epoca: 'Principios del s. XVII',
+    epoca: 'Principios del siglo XVII',
     titulo: 'Juan Corz y la Virgen del Carmen',
     texto:
       'El ermitaño genovés Juan Corz llegó a Guatemala con una pequeña imagen de la Virgen del Carmen que las carmelitas descalzas de Ávila le confiaron: era el último deseo de santa Teresa de Ávila en su lecho de muerte. Le aseguraron que donde fuera venerada la imagen surgiría una gran ciudad. Se estableció en unas cuevas del cerro y allí, viendo semejanza con el monte Carmelo, levantó la primera ermita.',
@@ -165,7 +165,7 @@ export const capitulos = [
     epoca: '1917 y 1976',
     titulo: 'Los terremotos del siglo XX',
     texto:
-      'El terremoto de 1917-18 derrumbó el templo, reinaugurado el 22 de noviembre de 1925. El de 1976 derribó la torre derecha y el tercer nivel de la fachada y dañó el torreón; su restauración concluyó entre 1981 y 1984. Los planos estructurales de la fachada y el atrio se trazaron en septiembre de 1979.',
+      'El terremoto de 1917-1918 derrumbó el templo, reinaugurado el 22 de noviembre de 1925. El de 1976 derribó la torre derecha y el tercer nivel de la fachada y dañó el torreón; su restauración concluyó entre 1981 y 1984. Los planos estructurales de la fachada y el atrio se trazaron en septiembre de 1979.',
     img: '/img/historia/ruinas-interior.jpg',
     alt: 'Interior de la ermita en ruinas tras un terremoto: el arco del retablo y la cúpula agrietada',
   },
@@ -291,7 +291,7 @@ export const arquitectura = [
     num: '03',
     titulo: 'El retablo mayor',
     texto:
-      'Retablo ultrabarroco del siglo XVIII, dorado, donde se venera a la Virgen del Carmen acompañada de san Simón Stock y santa Teresa de Jesús. Es la pieza central del arte del santuario.',
+      'Retablo ultrabarroco del siglo XVIII, dorado, donde se venera a la Virgen del Carmen acompañada de san Simón Stock y santa Teresa de Ávila. Es la pieza central del arte del santuario.',
     img: '/img/retablo-detalle.jpg',
     alt: 'Retablo mayor dorado con flores',
   },
@@ -313,7 +313,7 @@ export const arquitectura = [
   },
   {
     num: '06',
-    titulo: 'La campana',
+    titulo: 'Las campanas',
     texto:
       'El campanario conserva cuatro campanas históricas, fundidas en 1748, 1872, 1921 y 1925. La más antigua acompaña las celebraciones del Cerrito desde antes del traslado de la capital.',
     img: '/img/campana.jpg',
@@ -323,7 +323,7 @@ export const arquitectura = [
     num: '07',
     titulo: 'La cruz papal',
     texto:
-      'La cruz papal que guarda el santuario, memoria de la devoción mariana de la ciudad y de las celebraciones que ha acogido el cerro.',
+      'El santuario guarda una cruz papal, memoria de la devoción mariana de la ciudad y de las celebraciones que ha acogido el cerro.',
     img: '/img/cruz-atrio.jpg',
     alt: 'La cruz del atrio al anochecer',
   },
@@ -361,7 +361,7 @@ export const galeria = [
   { cat: 'Fiesta y procesión', alt: 'Arco de flores en la puerta del templo', img: '/img/arco-flores-fiesta.jpg' },
   { cat: 'Parque', alt: 'La fuente del parque', img: '/img/fuente-parque.jpg' },
   { cat: 'Exterior', alt: 'Silueta de las torres y la cruz al atardecer', img: '/img/silueta-torres.jpg' },
-  { cat: 'Interior', alt: 'El retablo con las cortinas amarillo y blanco', img: '/img/retablo-cortinas.jpg' },
+  { cat: 'Interior', alt: 'El retablo con las cortinas amarillas y blancas', img: '/img/retablo-cortinas.jpg' },
   { cat: 'Fiesta y procesión', alt: 'El anda «Reina de los Ángeles» dentro del templo', img: '/img/anda-reina-angeles.jpg' },
   { cat: 'Detalles', alt: 'El anda de la Virgen en penumbra', img: '/img/anda-penumbra.jpg' },
   { cat: 'Parque', alt: 'Jardín con buganvilias al atardecer', img: '/img/jardin-buganvilias.jpg' },
@@ -381,7 +381,7 @@ export const sacramentos = [
     requisitos: 'Partida de nacimiento del niño, datos de los padres y padrinos, y charla prebautismal.',
   },
   {
-    nombre: 'Primera Comunión',
+    nombre: 'Primera comunión',
     requisitos: 'Constancia de bautismo y catequesis completa en la parroquia o en el colegio.',
   },
   {
@@ -398,7 +398,7 @@ export const sacramentos = [
   },
   {
     nombre: 'Unción de los enfermos',
-    requisitos: 'Se atiende a domicilio o en el templo; comunicarse con la parroquia para coordinar.',
+    requisitos: 'Se atiende a domicilio o en el templo; comunícate con la parroquia para coordinar.',
   },
 ]
 
@@ -410,8 +410,8 @@ export const agenda = [
     titulo: 'Fiesta de la Virgen del Carmen · misas solemnes durante todo el día',
   },
   {
-    dia: '18',
-    cuando: 'De julio · 2026',
+    dia: 'Sáb',
+    cuando: 'Sábado siguiente al 16 de julio',
     tipo: 'Procesión',
     titulo: 'La Virgen recorre el Centro Histórico · sale a las 15:00 y entra al santuario a las 20:00',
   },
@@ -434,11 +434,11 @@ export const comoLlegar = [
   {
     label: 'Cómo llegar',
     titulo: 'En transporte',
-    texto: 'En pleno Centro Histórico (Zona 1), accesible a pie desde las calles cercanas y desde la avenida Juan Chapín.',
+    texto: 'En pleno Centro Histórico (zona 1), accesible a pie desde las calles cercanas y desde la avenida Juan Chapín.',
   },
   {
     label: 'Estacionamiento',
-    titulo: 'Dónde aparcar',
+    titulo: 'Dónde parquear',
     texto: 'Parqueo gratuito para visitantes junto al acceso del cerro.',
   },
   {
@@ -472,7 +472,7 @@ export const queVer = [
   {
     titulo: 'El retablo mayor',
     texto:
-      'Retablo ultrabarroco del siglo XVIII donde se venera a la Virgen del Carmen, acompañada de san Simón Stock y santa Teresa de Jesús.',
+      'Retablo ultrabarroco del siglo XVIII donde se venera a la Virgen del Carmen, acompañada de san Simón Stock y santa Teresa de Ávila.',
   },
   {
     titulo: 'El torreón «la Redonda»',
@@ -492,7 +492,7 @@ export const queVer = [
   {
     titulo: 'El parque y la Plaza México',
     texto:
-      'El parque arbolado que rodea el cerro, con la Plaza México y las vistas de la ciudad que Muybridge fotografió en 1875.',
+      'El parque arbolado que rodea el cerro, con la Plaza México y vistas abiertas sobre la ciudad.',
   },
 ]
 
@@ -506,6 +506,8 @@ export const recomendaciones = [
 export const faqs = [
   { p: '¿Hay parqueo?', r: 'Sí. El santuario cuenta con parqueo gratuito para visitantes en el Centro Histórico, zona 1.' },
   {
+    // Con el CRM, Contacto arma esta respuesta con los horarios de Ajustes (ver pages/Contacto.jsx).
+    clave: 'horario',
     p: '¿Cuál es el horario?',
     r: 'El santuario abre todos los días de 6:00 a 18:00 h. Las misas son de martes a viernes a las 7:00 y los domingos a las 9:00, 11:00 y 16:00 h.',
   },

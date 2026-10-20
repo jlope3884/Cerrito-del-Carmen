@@ -1,4 +1,5 @@
 /** Piezas pequeñas que se repiten en varias páginas. */
+import { Link } from 'react-router-dom'
 
 /** Encabezado oscuro de página interior. */
 export function PageHero({ eyebrow, titulo, texto }) {
@@ -17,12 +18,20 @@ export function PageHero({ eyebrow, titulo, texto }) {
  * Foto del sitio.
  * Con `src` muestra la imagen real; sin ella, el marcador gris con el texto.
  * Así, cuando la parroquia entregue el material, solo se llena `img` en site.js.
+ * Con `prioridad` la imagen se pide de inmediato (solo para las que se ven al cargar).
  */
-export function Foto({ src, alt = '', tam = 'foto--md', pos, pie, children }) {
+export function Foto({ src, alt = '', tam = 'foto--md', pos, pie, prioridad = false, children }) {
   if (src) {
     return (
       <figure className={'foto ' + tam} style={{ margin: 0 }}>
-        <img src={src} alt={alt} loading="lazy" style={pos ? { objectPosition: pos } : undefined} />
+        <img
+          src={src}
+          alt={alt}
+          loading={prioridad ? 'eager' : 'lazy'}
+          fetchpriority={prioridad ? 'high' : undefined /* en minúsculas: React 18 no conoce fetchPriority */}
+          decoding="async"
+          style={pos ? { objectPosition: pos } : undefined}
+        />
         {pie && <figcaption className="foto__pie">{pie}</figcaption>}
       </figure>
     )
@@ -47,7 +56,7 @@ export function TituloSeccion({ eyebrow, titulo, texto, claro = false }) {
   )
 }
 
-/** Bloque "Siguiente" al pie de cada página. */
+/** Bloque "Siguiente" al pie de cada página (con <Link> para no recargar el sitio ni cortar la música). */
 export function Siguiente({ titulo, to, children }) {
   return (
     <section className="section section--tight">
@@ -55,9 +64,9 @@ export function Siguiente({ titulo, to, children }) {
         <p className="eyebrow">Siguiente</p>
         <h2>{titulo}</h2>
         <div>
-          <a href={to} className="btn btn--dark">
+          <Link to={to} className="btn btn--dark">
             {children} →
-          </a>
+          </Link>
         </div>
       </div>
     </section>

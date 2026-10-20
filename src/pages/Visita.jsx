@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { site, queVer, recomendaciones } from '../data/site.js'
-import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { PageHero, TituloSeccion, Foto, Siguiente } from '../components/Bits.jsx'
+import HorariosMisa from '../components/HorariosMisa.jsx'
 import { useAjustes } from '../lib/datos.js'
+import { sinViuda } from '../lib/texto.js'
 import './pages.css'
 
 export default function Visita() {
@@ -16,11 +18,12 @@ export default function Visita() {
 
       <section className="section">
         <div className="shell">
+          <h2 className="visually-hidden">Información práctica</h2>
           <div className="grid grid--4">
             <div className="card">
               <span className="label">Horario</span>
               <h3>Horario de visita</h3>
-              <p>{aj.horario_visita}</p>
+              <p>{sinViuda(aj.horario_visita)}</p>
             </div>
             <div className="card">
               <span className="label">Entrada</span>
@@ -36,8 +39,11 @@ export default function Visita() {
               <span className="label">Accesibilidad</span>
               <h3>Acceso</h3>
               <p>
-                Se llega por el atrio empedrado y algunas gradas. Si necesitas apoyo para el acceso,
-                escríbenos antes de tu visita.
+                Se llega por el atrio empedrado y algunas gradas. Si necesitas apoyo para el acceso,{' '}
+                <Link to="/contacto" className="enlace">
+                  escríbenos
+                </Link>{' '}
+                antes de tu visita.
               </p>
             </div>
           </div>
@@ -58,15 +64,7 @@ export default function Visita() {
             titulo="Misas en el santuario"
             texto="El Cerrito es un santuario activo: además de visitarlo, puedes participar en sus celebraciones."
           />
-          <div className="grid grid--3">
-            {aj.misas.map((m) => (
-              <div key={m.dias} className="card horario">
-                <span className="label">{m.dias}</span>
-                <span className="horario__hora">{m.hora}</span>
-                <p>{m.detalle}</p>
-              </div>
-            ))}
-          </div>
+          <HorariosMisa misas={aj.misas} />
           <p className="note" style={{ marginTop: '22px' }}>
             {aj.aviso_horarios}
           </p>
@@ -98,9 +96,8 @@ export default function Visita() {
             <h2>El parque y la Plaza México</h2>
             <p className="lead">
               El santuario corona un cerro arbolado en el corazón de la ciudad. Abajo, el parque y la Plaza
-              México son punto de encuentro del barrio, y desde la cima se abren las panorámicas sobre la
-              Ciudad de Guatemala que Muybridge fotografió en 1875. En el área del parque están también los
-              servicios sanitarios.
+              México son punto de encuentro del barrio, y desde la cima se abren panorámicas sobre la Ciudad
+              de Guatemala. En el área del parque están también los servicios sanitarios.
             </p>
           </div>
           <Foto src="/img/pergola-buganvilias.jpg" alt="Pérgola de buganvilias sobre el camino de piedra del parque" tam="foto--lg" pie="El parque del Cerrito" />
@@ -121,17 +118,9 @@ export default function Visita() {
         </div>
       </section>
 
-      <section className="section section--tight">
-        <div className="shell stack stack--md">
-          <p className="eyebrow">Siguiente</p>
-          <h2>Planifica tu celebración religiosa</h2>
-          <div>
-            <Link to="/celebraciones" className="btn btn--dark">
-              Ir a celebraciones →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Siguiente titulo="Planea tu celebración religiosa" to="/celebraciones">
+        Ir a celebraciones
+      </Siguiente>
     </>
   )
 }

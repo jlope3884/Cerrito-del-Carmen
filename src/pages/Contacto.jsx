@@ -1,11 +1,29 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { site, faqs, redes } from '../data/site.js'
-import { PageHero, TituloSeccion, Foto } from '../components/Bits.jsx'
+import { site, faqs, redes, horarios } from '../data/site.js'
+import { PageHero, TituloSeccion, Foto, Siguiente } from '../components/Bits.jsx'
 import { useAjustes } from '../lib/datos.js'
+import { tratamiento, telHref, sinViuda } from '../lib/texto.js'
 import './pages.css'
 
-function Faq() {
+/**
+ * Respuesta sobre horarios. Con los datos de respaldo se usa el texto de site.js;
+ * si el panel cambió los horarios, se arma con ellos para no contradecir Visita.
+ */
+function respuestaHorario(f, aj) {
+  if (aj.horario_visita === horarios.visita && aj.misas === horarios.misas) return f.r
+  const visita = String(aj.horario_visita || '').replace(/\.\s*$/, '')
+  const misas = (aj.misas || []).map((m) => `${m.dias}: ${m.hora}`).join('; ')
+  return (
+    <>
+      {sinViuda(`Horario de visita: ${visita}.`)}
+      {misas && ' ' + sinViuda(`Misas: ${misas}.`)} Consulta los horarios actualizados en{' '}
+      <Link to="/visita#misas">Visita</Link>.
+    </>
+  )
+}
+
+function Faq({ aj }) {
   const [abierta, setAbierta] = useState(0)
   return (
     <div className="faq" id="faq">
@@ -19,7 +37,7 @@ function Faq() {
                 {activa ? '–' : '+'}
               </span>
             </button>
-            {activa && <p className="faq__r">{f.r}</p>}
+            {activa && <p className="faq__r">{f.clave === 'horario' ? respuestaHorario(f, aj) : f.r}</p>}
           </div>
         )
       })}
@@ -36,7 +54,6 @@ const redesActivas = redes.filter((r) => r.url && r.url !== '#')
 
 export default function Contacto() {
   const aj = useAjustes()
-  const telHref = `tel:+502${aj.telefono.replace(/\s/g, '')}`
   const [estado, setEstado] = useState('listo') // listo | enviando | enviado | error
 
   async function enviar(e) {
@@ -82,7 +99,7 @@ export default function Contacto() {
             <TituloSeccion eyebrow="Escríbenos" titulo="Envíanos un mensaje" />
             {estado === 'enviado' ? (
               <div className="exito" role="status">
-                Gracias por escribirnos. Recibimos tu mensaje; el {aj.parroco.toLowerCase()} o el equipo del
+                Gracias por escribirnos. Recibimos tu mensaje; el {tratamiento(aj.parroco)} o el equipo del
                 santuario te responderán lo antes posible.
               </div>
             ) : (
@@ -146,7 +163,7 @@ export default function Contacto() {
             <div className="datos__fila">
               <span className="label">Teléfono</span>
               <p>
-                <a href={telHref}>{aj.telefono}</a>
+                <a href={telHref(aj.telefono)}>{aj.telefono}</a>
               </p>
             </div>
             <div className="datos__fila">
@@ -166,8 +183,9 @@ export default function Contacto() {
                 {redesActivas.map((r, i) => (
                   <span key={r.nombre}>
                     {i > 0 && ' · '}
-                    <a href={r.url} target="_blank" rel="noreferrer" style={{ color: 'var(--gold-deep)' }}>
+                    <a href={r.url} target="_blank" rel="noreferrer">
                       {r.nombre}
+                      <span className="visually-hidden"> (se abre en una pestaña nueva)</span>
                     </a>
                   </span>
                 ))}
@@ -187,21 +205,13 @@ export default function Contacto() {
       <section className="section">
         <div className="shell">
           <TituloSeccion eyebrow="Preguntas frecuentes" titulo="Lo que más nos preguntan" />
-          <Faq />
+          <Faq aj={aj} />
         </div>
       </section>
 
-      <section className="section section--tight">
-        <div className="shell stack stack--md">
-          <p className="eyebrow">Siguiente</p>
-          <h2>Apoya al santuario</h2>
-          <div>
-            <Link to="/donar" className="btn btn--dark">
-              Ir a donar →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <Siguiente titulo="Apoya al santuario" to="/donar">
+        Ir a donar
+      </Siguiente>
     </>
   )
 }

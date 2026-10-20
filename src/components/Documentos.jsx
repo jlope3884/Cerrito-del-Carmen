@@ -1,26 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import Visor from './Visor.jsx'
 
 /** Rejilla de documentos históricos (escaneos). Se muestran completos y se amplían al hacer clic. */
 export default function Documentos({ items, claro = false }) {
   const [abierto, setAbierto] = useState(null)
 
-  useEffect(() => {
-    if (!abierto) return
-    const cerrar = (e) => e.key === 'Escape' && setAbierto(null)
-    window.addEventListener('keydown', cerrar)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', cerrar)
-      document.body.style.overflow = ''
-    }
-  }, [abierto])
   return (
     <>
       <div className={'docs' + (claro ? ' docs--claro' : '')}>
         {items.map((d) => (
-          <button key={d.img} className="doc" onClick={() => setAbierto(d)} aria-label={'Ampliar: ' + d.titulo}>
+          <button key={d.img} type="button" className="doc" onClick={() => setAbierto(d)}>
+            <span className="visually-hidden">Ampliar: </span>
             <span className="doc__img">
-              <img src={d.img} alt={d.titulo} loading="lazy" />
+              <img src={d.img} alt="" loading="lazy" decoding="async" />
             </span>
             <span className="doc__fecha">{d.fecha}</span>
             <span className="doc__titulo">{d.titulo}</span>
@@ -30,24 +22,17 @@ export default function Documentos({ items, claro = false }) {
       </div>
 
       {abierto && (
-        <div className="visor" role="dialog" aria-modal="true" aria-label={abierto.titulo} onClick={() => setAbierto(null)}>
-          <figure className="visor__fig" onClick={(e) => e.stopPropagation()}>
-            <img src={abierto.img} alt={abierto.titulo} />
-            <figcaption>
-              <span>
-                <strong>{abierto.titulo}</strong> · {abierto.fecha}
-              </span>
-              <span style={{ display: 'flex', gap: '10px' }}>
-                <a className="visor__cerrar" href={abierto.img} target="_blank" rel="noreferrer">
-                  Ver original
-                </a>
-                <button className="visor__cerrar" onClick={() => setAbierto(null)}>
-                  Cerrar ✕
-                </button>
-              </span>
-            </figcaption>
-          </figure>
-        </div>
+        <Visor
+          img={abierto.img}
+          alt={abierto.titulo}
+          pie={
+            <>
+              <strong>{abierto.titulo}</strong> · {abierto.fecha}
+            </>
+          }
+          enlaceOriginal={abierto.img}
+          onCerrar={() => setAbierto(null)}
+        />
       )}
     </>
   )
