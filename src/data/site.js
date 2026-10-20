@@ -17,9 +17,9 @@ export const site = {
   parroco: 'Padre Edwin Muñoz',
   direccion: '1a calle y 12 avenida, Zona 1, Ciudad de Guatemala, 01001',
   telefono: '2232 4988',
-  // TODO: confirmar con la parroquia antes de publicar
-  correo: 'info@cerritodelcarmen.gt',
-  correoDonaciones: 'donaciones@cerritodelcarmen.gt',
+  // Correo confirmado por la parroquia (20/10/2026)
+  correo: 'santuariocerritodelcarmen@gmail.com',
+  correoDonaciones: 'santuariocerritodelcarmen@gmail.com',
 }
 
 /* --------------------------------------------------------------------------

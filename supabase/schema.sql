@@ -263,7 +263,7 @@ create policy eventos_img_borrar on storage.objects for delete to authenticated
 insert into public.ajustes (id, parroco, horario_visita, aviso_horarios, telefono, correo)
 values (1, 'Padre Edwin Muñoz', 'Todos los días, de 6:00 a 18:00 h',
   'Los horarios pueden variar durante la fiesta patronal y las celebraciones especiales. Confírmalos con el santuario antes de tu visita.',
-  '2232 4988', 'info@cerritodelcarmen.gt')
+  '2232 4988', 'santuariocerritodelcarmen@gmail.com')
 on conflict (id) do nothing;
 
 insert into public.horarios_misa (orden, dias, hora, detalle)
